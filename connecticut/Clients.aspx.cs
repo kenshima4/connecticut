@@ -8,7 +8,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-
+using connecticut.Classes;
 namespace connecticut
 {
     public partial class Clients : System.Web.UI.Page
@@ -48,7 +48,6 @@ namespace connecticut
             try
             {
                 txtClientName.Text = "";
-                txtClientCode.Text = "";
 
                 lblClientNew.Visible = true;
                 lblClientUpd.Visible = false;
@@ -64,11 +63,13 @@ namespace connecticut
             try
             {
                 myCon.Open();
-                using (SqlCommand myCom = new SqlCommand("dbo.usp_InsCompany", myCon))
+                using (SqlCommand myCom = new SqlCommand("dbo.InsClient", myCon))
                 {
+                    Client newClient = new Client(txtClientName.Text);
+
                     myCom.CommandType = CommandType.StoredProcedure;
-                    myCom.Parameters.Add("@CompanyName", SqlDbType.VarChar).Value = txtClientName.Text;
-                    myCom.Parameters.Add("@CompAddress", SqlDbType.VarChar).Value = txtClientCode.Text;
+                    myCom.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtClientName.Text;
+                    myCom.Parameters.Add("@ClientCode", SqlDbType.VarChar).Value = newClient.getClientCode();
 
                     myCom.ExecuteNonQuery();
                 }
@@ -90,7 +91,6 @@ namespace connecticut
 
 
                 txtClientName.Text = "";
-                txtClientCode.Text = "";
                
                 lblClientNew.Visible = false;
                 lblClientUpd.Visible = true;
@@ -138,7 +138,7 @@ namespace connecticut
                         while (myDr.Read())
                         {
                             txtClientName.Text = myDr.GetValue(1).ToString();
-                            txtClientCode.Text = myDr.GetValue(2).ToString();
+                            //txtClientCode.Text = myDr.GetValue(2).ToString();
                            
                             lblClientID.Text = Client_ID.ToString();
                         }
@@ -160,7 +160,7 @@ namespace connecticut
 
                     cmd.Parameters.Add("@ID", SqlDbType.Int).Value = int.Parse(lblClientID.Text);
                     cmd.Parameters.Add("@ClientName", SqlDbType.VarChar).Value = txtClientName.Text;
-                    cmd.Parameters.Add("@ClientCode", SqlDbType.VarChar).Value = txtClientCode.Text;
+                    //cmd.Parameters.Add("@ClientCode", SqlDbType.VarChar).Value = txtClientCode.Text;
 
 
                     int rows = cmd.ExecuteNonQuery();

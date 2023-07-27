@@ -13,7 +13,7 @@
     <script type="text/javascript">
         function openClientDetail() {
             //alert("Opening modal!");
-            $('#modCoDetail').modal('show');
+            $('#modClientDetail').modal('show');
         }
     </script>
  
@@ -49,11 +49,11 @@
                 </div>
                 <div class="col-sm-4" style="text-align: right;">
                     <asp:Label ID="Label5" runat="server" Text="[" Font-Size="12px" Visible="true"></asp:Label>
-                    <asp:LinkButton ID="lbNewClient" runat="server" Font-Size="12px" OnClick="lbNewClient_Click">New</asp:LinkButton>
+                    <asp:LinkButton ID="lbNewClient" runat="server" Font-Size="12px" OnClick="lbNewClient_Click">New Client</asp:LinkButton>
                     <asp:Label ID="Label6" runat="server" Text="]" Font-Size="12px" Visible="true"></asp:Label>
                 </div>
             </div>
- 
+            
             <%-- Gridview --%>
             <div class="row" style="margin-top: 20px;">
                 <div class="col-sm-12">
@@ -104,80 +104,74 @@
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
+
+
                 </div>
             </div>
-        </div>
+        
  
-        <!-- Modal to Add New or View / Update a Company Details-->
-        <div class="modal fade" id="modClientDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" style="width: 600px;">
-                <div class="modal-content" style="font-size: 11px;">
+            <!-- Modal to Add New or View / Update a Client Details-->
+            <div class="modal fade" id="modClientDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="width: 600px;">
+                    <div class="modal-content" style="font-size: 11px;">
  
-                    <div class="modal-header" style="text-align: center;">
-                        <asp:Label ID="lblClientNew" runat="server" Text="Add New Client" Font-Size="24px" Font-Bold="true" />
-                        <asp:Label ID="lblClientUpd" runat="server" Text="View / Update a Client" Font-Size="24px" Font-Bold="true" />
-                    </div>
+                        <div class="modal-header" style="text-align: center;">
+                            <asp:Label ID="lblClientNew" runat="server" Text="Add New Client" Font-Size="24px" Font-Bold="true" />
+                            <asp:Label ID="lblClientUpd" runat="server" Text="View / Update a Client" Font-Size="24px" Font-Bold="true" />
+                        </div>
  
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-12">
- 
-                                <%-- Client Details Textboxes --%>
+                        <div class="modal-body">
+                            <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="row" style="margin-top: 20px;">
-                                        <div class="col-sm-1"></div>
-                                        <div class="col-sm-10">
-                                            <asp:TextBox ID="txtClientName" runat="server" MaxLength="255" CssClass="form-control input-xs" 
-                                                ToolTip="Client Name"
-                                                AutoCompleteType="Disabled" placeholder="Client Name" />
-                                            <asp:Label runat="server" ID="lblClientID" Visible="false" Font-Size="12px" />
+ 
+                                    <%-- Client Details Textboxes --%>
+                                    <div class="col-sm-12">
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-10">
+                                                <asp:TextBox ID="txtClientName" runat="server" MaxLength="255" CssClass="form-control input-xs" 
+                                                    ToolTip="Client Name"
+                                                    AutoCompleteType="Disabled" placeholder="Client Name" />
+                                                <asp:Label runat="server" ID="lblClientID" Visible="false" Font-Size="12px" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                            </div>
                                         </div>
-                                        <div class="col-sm-1">
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-top: 20px;">
-                                        <div class="col-sm-1"></div>
-                                        <div class="col-sm-10">
-                                            <asp:TextBox ID="txtClientCode" runat="server" MaxLength="255" CssClass="form-control input-xs" 
-                                                ToolTip="Company Address"
-                                                AutoCompleteType="Disabled" placeholder="Client Code" />
-                                        </div>
-                                        <div class="col-sm-1">
-                                        </div>
-                                    </div>
+                                        
                                     
+                                    </div>
                                 </div>
+ 
                             </div>
  
-                        </div>
- 
-                        <%-- Message label on modal page --%>
-                        <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-10">
-                                <asp:Label ID="lblModalMessage" runat="server" ForeColor="Red" Font-Size="12px" Text="" />
+                            <%-- Message label on modal page --%>
+                            <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <asp:Label ID="lblModalMessage" runat="server" ForeColor="Red" Font-Size="12px" Text="" />
+                                </div>
+                                <div class="col-sm-1"></div>
                             </div>
-                            <div class="col-sm-1"></div>
                         </div>
-                    </div>
  
-                    <%-- Add, Update and Cancel Buttons --%>
-                    <div class="modal-footer">
-                        <asp:Button ID="btnAddClient" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
-                            Text="Add Client"
-                            Visible="true" CausesValidation="false"
-                            OnClick="btnAddClient_Click"
-                            UseSubmitBehavior="false" />
-                        <asp:Button ID="btnUpdClient" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
-                            Text="Update Client"
-                            Visible="false" CausesValidation="false"
-                            OnClick="btnUpdClient_Click"
-                            UseSubmitBehavior="false" />
-                        <asp:Button ID="btnClose" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
-                            Text="Close" CausesValidation="false"
-                            UseSubmitBehavior="false" />
-                    </div>
+                        <%-- Add, Update and Cancel Buttons --%>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnAddClient" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                                Text="Add Client"
+                                Visible="true" CausesValidation="false"
+                                OnClick="btnAddClient_Click"
+                                UseSubmitBehavior="false" />
+                            <asp:Button ID="btnUpdClient" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                                Text="Update Client"
+                                Visible="false" CausesValidation="false"
+                                OnClick="btnUpdClient_Click"
+                                UseSubmitBehavior="false" />
+                            <asp:Button ID="btnClose" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
+                                Text="Close" CausesValidation="false"
+                                UseSubmitBehavior="false" />
+                        </div>
  
+                    </div>
                 </div>
             </div>
         </div>
