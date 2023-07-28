@@ -71,7 +71,7 @@
                                 <HeaderStyle HorizontalAlign="Left" Width="25px" />
                                 <ItemStyle HorizontalAlign="Left" Font-Bold="true" />
                             </asp:TemplateField>
-                            <asp:BoundField DataField="ClientName" HeaderText="Client Name">
+                            <asp:BoundField DataField="Name" HeaderText="Client Name">
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:BoundField>

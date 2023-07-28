@@ -66,11 +66,12 @@ namespace connecticut
                 using (SqlCommand myCom = new SqlCommand("dbo.InsClient", myCon))
                 {
                     Client newClient = new Client(txtClientName.Text);
+                    newClient.generateClientCode();
 
                     myCom.CommandType = CommandType.StoredProcedure;
                     myCom.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtClientName.Text;
                     myCom.Parameters.Add("@ClientCode", SqlDbType.VarChar).Value = newClient.getClientCode();
-
+                    
                     myCom.ExecuteNonQuery();
                 }
             }
@@ -159,7 +160,7 @@ namespace connecticut
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.Add("@ID", SqlDbType.Int).Value = int.Parse(lblClientID.Text);
-                    cmd.Parameters.Add("@ClientName", SqlDbType.VarChar).Value = txtClientName.Text;
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtClientName.Text;
                     //cmd.Parameters.Add("@ClientCode", SqlDbType.VarChar).Value = txtClientCode.Text;
 
 
