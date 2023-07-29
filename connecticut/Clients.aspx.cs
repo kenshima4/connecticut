@@ -20,6 +20,7 @@ namespace connecticut
             if (!IsPostBack)
             {
                 DoGridView();
+                DoLinkedContactsGridView();
             }
         }
         private void DoGridView()
@@ -42,6 +43,31 @@ namespace connecticut
             }
             catch (Exception ex) { lblMessage.Text = "Error in Clients doGridView: " + ex.Message; }
             finally { myCon.Close(); }
+        }
+
+        private void DoLinkedContactsGridView()
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("SELECT * FROM ClientContacts", myCon))
+                {
+                    SqlDataReader myDr = myCom.ExecuteReader();
+
+                    gvLinkedContacts.DataSource = myDr;
+                    gvLinkedContacts.DataBind();
+
+                    myDr.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error in DoLinkedContactsGridView: " + ex.Message;
+            }
+            finally
+            {
+                myCon.Close();
+            }
         }
         protected void lbNewClient_Click(object sender, EventArgs e)
         {
@@ -86,13 +112,13 @@ namespace connecticut
         }
         protected void gvClients_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "UpdCompany")
+            if (e.CommandName == "UpdClient")
             {
                 Client_ID = Convert.ToInt32(e.CommandArgument);
 
 
                 txtClientName.Text = "";
-               
+
                 lblClientNew.Visible = false;
                 lblClientUpd.Visible = true;
                 btnAddClient.Visible = false;
@@ -101,6 +127,9 @@ namespace connecticut
                 GetClient(Client_ID);
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openClientDetail();", true);
+            }
+            else if (e.CommandName == "SlcClient") {
+                Console.WriteLine(ClientID);
             }
         }
         protected void gvClients_RowDeleting(Object sender, GridViewDeleteEventArgs e)

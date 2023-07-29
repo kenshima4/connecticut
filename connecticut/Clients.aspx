@@ -54,7 +54,7 @@
                 </div>
             </div>
             
-            <%-- Gridview --%>
+            <%-- Gridview List Clients --%>
             <div class="row" style="margin-top: 20px;">
                 <div class="col-sm-12">
                     <asp:GridView ID="gvClients" runat="server" AutoGenerateColumns="False" AllowSorting="True"
@@ -102,13 +102,69 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                             </asp:TemplateField>
+
+                            <%-- Select Client --%>
+                            <asp:TemplateField HeaderText="">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbSlcClient" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                        CommandName="SlcClient" Text="Select" CausesValidation="false"></asp:LinkButton>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="80px" />
+                            </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
 
 
                 </div>
             </div>
-        
+            
+            <!-- Tabs -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tabGeneral">General</a></li>
+                        <li><a data-toggle="tab" href="#tabContacts">Contact(s)</a></li>
+                    </ul>
+ 
+                    <div class="tab-content">
+                        <!-- General Tab -->
+                        <div id="tabGeneral" class="tab-pane fade in active">
+                            <h3>General</h3>
+                            <div class="form-group">
+                                <label for="txtClientName">Client Name:</label>
+                                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtClientCode">Client Code:</label>
+                                <asp:TextBox ID="txtClientCode" runat="server" CssClass="form-control" ReadOnly="true" />
+                            </div>
+                        </div>
+ 
+                        <!-- Contact(s) Tab with gridview-->
+                        <%-- Gridview List Clients --%>
+                        <div id="tabContacts" class="row tab-pane fade in active" style="margin-top: 20px;">
+                            <div class="col-sm-12">
+                                <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
+                                    DataKeyNames="ID"
+                                    CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                                    OnRowDeleting="gvClients_RowDeleting"
+                                    OnRowCommand="gvClients_RowCommand"
+                                    EmptyDataText="No Contacts found!">
+                                    <Columns>
+                                    <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:BoundField DataField="EmailAddress" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:HyperLinkField DataNavigateUrlFields="ContactID" DataNavigateUrlFormatString="UnlinkContact.aspx?contactID={0}" 
+                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
+                                </Columns>
+                                </asp:GridView>
+
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
  
             <!-- Modal to Add New or View / Update a Client Details-->
             <div class="modal fade" id="modClientDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -174,7 +230,10 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </form>
+
+    
 </body>
 </html>
