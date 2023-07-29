@@ -7,12 +7,13 @@ namespace connecticut.Classes
 {
     public class Contact
     {
+        public int id { get; set; }
         private string name;
         private string surname;
         private string email;
 
         private List<Client> linkedClients;
-        Contact(string name, string surname, string email) {
+        public Contact(string name, string surname, string email) {
             this.linkedClients = new List<Client>();
             this.name = name;
             this.surname = surname;
