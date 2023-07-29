@@ -14,6 +14,7 @@ namespace connecticut
     public partial class Clients : System.Web.UI.Page
     {
         int Client_ID;
+        private List <Client> clients = new List<Client>();
         SqlConnection myCon = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -91,14 +92,29 @@ namespace connecticut
                 myCon.Open();
                 using (SqlCommand myCom = new SqlCommand("dbo.InsClient", myCon))
                 {
+                    // Create a new client object with the ID and add it to your clients list
                     Client newClient = new Client(txtClientName.Text);
-                    newClient.generateClientCode();
+                    string clientCode = newClient.getClientCode();
+
+                    
 
                     myCom.CommandType = CommandType.StoredProcedure;
-                    myCom.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtClientName.Text;
-                    myCom.Parameters.Add("@ClientCode", SqlDbType.VarChar).Value = newClient.getClientCode();
-                    
+                    myCom.Parameters.Add("@Name", SqlDbType.NVarChar).Value = txtClientName.Text;
+                    myCom.Parameters.Add("@ClientCode", SqlDbType.NVarChar).Value = clientCode;
+
+                    // Add an output parameter for the client ID
+                    SqlParameter outputParameter = new SqlParameter("@ID", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    myCom.Parameters.Add(outputParameter);
+
                     myCom.ExecuteNonQuery();
+
+                    // Get the newly inserted client's ID from the output parameter
+                    int newClientId = (int)outputParameter.Value;
+                    newClient.id = newClientId;
+                    clients.Add(newClient);
                 }
             }
             catch (Exception ex) { lblMessage.Text = "Error in btnAddClient_Click: " + ex.Message; }
@@ -112,25 +128,36 @@ namespace connecticut
         }
         protected void gvClients_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            Client_ID = Convert.ToInt32(e.CommandArgument);
+
             if (e.CommandName == "UpdClient")
             {
-                Client_ID = Convert.ToInt32(e.CommandArgument);
 
-
-                txtClientName.Text = "";
-
-                lblClientNew.Visible = false;
-                lblClientUpd.Visible = true;
-                btnAddClient.Visible = false;
-                btnUpdClient.Visible = true;
-
-                GetClient(Client_ID);
-
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openClientDetail();", true);
+                gvClients_RowCommandUpdate(Client_ID);
             }
             else if (e.CommandName == "SlcClient") {
-                Console.WriteLine(ClientID);
+                gvClients_RowCommandSelect(Client_ID);
             }
+        }
+
+        protected void gvClients_RowCommandUpdate(int Client_ID) 
+        {
+            
+            txtClientName.Text = "";
+
+            lblClientNew.Visible = false;
+            lblClientUpd.Visible = true;
+            btnAddClient.Visible = false;
+            btnUpdClient.Visible = true;
+
+            GetClient(Client_ID);
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openClientDetail();", true);
+        }
+
+        protected void gvClients_RowCommandSelect(int Client_ID)
+        {
+            GetClient(Client_ID);
         }
         protected void gvClients_RowDeleting(Object sender, GridViewDeleteEventArgs e)
         {
@@ -156,7 +183,7 @@ namespace connecticut
             try
             {
                 myCon.Open();
-                using (SqlCommand myCmd = new SqlCommand("dbo.usp_GetClient", myCon))
+                using (SqlCommand myCmd = new SqlCommand("dbo.GetClient", myCon))
                 {
                     myCmd.Connection = myCon;
                     myCmd.CommandType = CommandType.StoredProcedure;
@@ -167,15 +194,15 @@ namespace connecticut
                     {
                         while (myDr.Read())
                         {
-                            txtClientName.Text = myDr.GetValue(1).ToString();
-                            //txtClientCode.Text = myDr.GetValue(2).ToString();
+                            txtBoxClientName.Text = myDr.GetValue(0).ToString();
+                            txtBoxClientCode.Text = myDr.GetValue(1).ToString();
                            
                             lblClientID.Text = Client_ID.ToString();
                         }
                     }
                 }
             }
-            catch (Exception ex) { lblMessage.Text = "Error in Companies GetCompany: " + ex.Message; }
+            catch (Exception ex) { lblMessage.Text = "Error in Client GetClient: " + ex.Message; }
             finally { myCon.Close(); }
         }
         private void UpdClient()

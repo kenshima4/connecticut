@@ -131,12 +131,12 @@
                         <div id="tabGeneral" class="tab-pane fade in active">
                             <h3>General</h3>
                             <div class="form-group">
-                                <label for="txtClientName">Client Name:</label>
-                                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" />
+                                <label for="lblClientName">Client Name:</label>
+                                <asp:TextBox ID="txtBoxClientName" runat="server" CssClass="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="txtClientCode">Client Code:</label>
-                                <asp:TextBox ID="txtClientCode" runat="server" CssClass="form-control" ReadOnly="true" />
+                                <label for="lblClientCode">Client Code:</label>
+                                <asp:TextBox ID="txtBoxClientCode" runat="server" CssClass="form-control" ReadOnly="true" />
                             </div>
                         </div>
  
