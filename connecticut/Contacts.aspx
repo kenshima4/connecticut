@@ -87,6 +87,10 @@
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:BoundField>
+                            <asp:BoundField DataField="LinkedClients" HeaderText="No. of Linked Clients">
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
                            
  
                             <%-- Delete Contact --%>
