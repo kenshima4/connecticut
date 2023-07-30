@@ -87,7 +87,8 @@
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:BoundField>
-                            <asp:BoundField DataField="LinkedClients" HeaderText="No. of Linked Clients">
+
+                            <asp:BoundField DataField="NoLinkedClients" HeaderText="No. of Linked Clients">
                                 <HeaderStyle HorizontalAlign="Center" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
@@ -136,32 +137,37 @@
                     
                                             <div class="col-sm-1"></div>
                                             <%-- first name --%>
-                                            <div class="col-sm-10 form-inline"> <%-- Use form-inline class for inline layout --%>
+                                            <div class="col-sm-10"> <%-- Use form-inline class for inline layout --%>
                                                 <asp:TextBox ID="txtContactName" runat="server" MaxLength="255" CssClass="form-control input-xs" 
                                                     ToolTip="Name"
                                                     AutoCompleteType="Disabled" placeholder="Name" />
                                                 <asp:Label runat="server" ID="lblClientID" Visible="false" Font-Size="12px" />
                                             </div>
-
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-sm-1"></div>
                                             <%-- surname --%>
-                                            <div class="col-sm-10 form-inline"> 
+                                            <div class="col-sm-10"> 
                                                 <asp:TextBox ID="txtContactSurname" runat="server" MaxLength="255" CssClass="form-control input-xs" 
                                                     ToolTip="Surname"
                                                     AutoCompleteType="Disabled" placeholder="Surname" />
                                                 <asp:Label runat="server" ID="Label1" Visible="false" Font-Size="12px" />
                                             </div>
-
-                                            <%-- email --%>
-                                            
-                                            <div class="col-sm-10 form-inline"> 
-                                                <asp:TextBox ID="txtContactEmail" runat="server" MaxLength="255" CssClass="form-control input-xs" 
-                                                    ToolTip="Email Address"
-                                                    AutoCompleteType="Disabled" placeholder="email address" />
-                                                <asp:Label runat="server" ID="Label2" Visible="false" Font-Size="12px" />
-                                            </div>
                                             <div class="col-sm-1"></div>
                                         </div>
-                
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-sm-1"></div>
+                                            <%-- email --%>
+                                            <div class="col-sm-10"> 
+                                                <asp:TextBox ID="txtContactEmail" runat="server" MaxLength="255" CssClass="form-control input-xs" 
+                                                    ToolTip="Email Address" AutoCompleteType="Disabled" placeholder="Email Address" />
+                                                <asp:Label ID="lblEmailErrorMessage" runat="server" ForeColor="Red"></asp:Label>
+                                            </div>
+                                            
+                                            <div class="col-sm-1"></div>
+                                            
+                                        </div>
             
                                     
                                 </div>
@@ -171,17 +177,17 @@
  
                         <%-- Add, Update and Cancel Buttons --%>
                         <div class="modal-footer">
-                            <asp:Button ID="btnAddContact" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                            <asp:Button ID="btnAddContact" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
                                 Text="Add Contact"
                                 Visible="true" CausesValidation="false"
                                 OnClick="btnAddContact_Click"
                                 UseSubmitBehavior="false" />
-                            <asp:Button ID="btnUpdContact" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                            <asp:Button ID="btnUpdContact" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
                                 Text="Update Contact"
                                 Visible="false" CausesValidation="false"
                                 OnClick="btnUpdContact_Click"
                                 UseSubmitBehavior="false" />
-                            <asp:Button ID="btnClose" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
+                            <asp:Button ID="btnClose" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
                                 Text="Close" CausesValidation="false"
                                 UseSubmitBehavior="false" />
                         </div>
