@@ -64,11 +64,15 @@ namespace connecticut
             catch (Exception) { throw; }
         }
 
+        protected void revEmail_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            // Validate the email format using the regular expression
+            args.IsValid = Utils.isValidEmail(txtContactEmail.Text);
+        }
+
         protected void btnAddContact_Click(object sender, EventArgs e)
         {
-            if (!Utils.isValidEmail(txtContactEmail.Text)) {
-                return;
-            }
+            
 
             try
             {

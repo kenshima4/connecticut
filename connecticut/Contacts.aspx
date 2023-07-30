@@ -162,7 +162,9 @@
                                             <div class="col-sm-10"> 
                                                 <asp:TextBox ID="txtContactEmail" runat="server" MaxLength="255" CssClass="form-control input-xs" 
                                                     ToolTip="Email Address" AutoCompleteType="Disabled" placeholder="Email Address" />
-                                                <asp:Label ID="lblEmailErrorMessage" runat="server" ForeColor="Red"></asp:Label>
+                                                <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtContactEmail"
+                                                    ErrorMessage="Invalid email format" ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
+                                                    ValidationGroup="vgContacts" OnServerValidate="revEmail_ServerValidate"/>
                                             </div>
                                             
                                             <div class="col-sm-1"></div>
@@ -179,8 +181,9 @@
                         <div class="modal-footer">
                             <asp:Button ID="btnAddContact" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
                                 Text="Add Contact"
-                                Visible="true" CausesValidation="false"
+                                Visible="true" CausesValidation="true"
                                 OnClick="btnAddContact_Click"
+                                ValidationGroup="vgContacts"
                                 UseSubmitBehavior="false" />
                             <asp:Button ID="btnUpdContact" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
                                 Text="Update Contact"
