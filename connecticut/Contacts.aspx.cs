@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text.RegularExpressions;
+
 using connecticut.Classes;
 namespace connecticut
 {
@@ -66,7 +66,7 @@ namespace connecticut
 
         protected void btnAddContact_Click(object sender, EventArgs e)
         {
-            if (!validateEmail()) {
+            if (!Utils.isValidEmail(txtContactEmail.Text)) {
                 return;
             }
 
@@ -192,23 +192,6 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in Companies UpdClient: " + ex.Message; }
             finally { myCon.Close(); }
         }
-        private bool validateEmail() {
-            string email = txtContactEmail.Text.Trim();
-
-            // Check if the email is valid using a regular expression
-            if (!isValidEmail(email))
-            {
-                lblEmailErrorMessage.Text = "Invalid email address format.";
-                return false;
-            }
-            return true;
-        }
-        private bool isValidEmail(string email)
-        {
-            // Use the same regular expression pattern for email validation
-            // that you used in the RegularExpressionValidator on the client-side
-            string emailPattern = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
-            return Regex.IsMatch(email, emailPattern);
-        }
+        
     }
 }
