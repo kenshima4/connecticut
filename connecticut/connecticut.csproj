@@ -72,11 +72,13 @@
     <Content Include="Contacts.aspx" />
     <Content Include="db_connection_string.txt" />
     <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\Contact.cs" />
+    <Compile Include="Classes\Utils.cs" />
     <Compile Include="Clients.aspx.cs">
       <DependentUpon>Clients.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -97,6 +99,9 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

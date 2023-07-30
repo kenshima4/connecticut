@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
  
     <script type="text/javascript">
-        function openEmpDetail() {
+        function openContactDetail() {
             //alert("Opening modal!");
-            $('#modEmpDetail').modal('show');
+            $('#modContactDetail').modal('show');
         }
     </script>
  
@@ -38,15 +38,21 @@
                             <asp:HyperLink ID="hlHome" NavigateUrl="~/Default.aspx" runat="server">Home</asp:HyperLink><br />
                         </li>
                         <li>
-                            <asp:HyperLink ID="hlClients" NavigateUrl="~/Clients.aspx" runat="server">Client</asp:HyperLink><br />
+                            <asp:HyperLink ID="hlClients" NavigateUrl="~/Clients.aspx" runat="server">Clients</asp:HyperLink><br />
                         </li>
                         <li>
-                            <asp:HyperLink ID="hlContacts" NavigateUrl="~/Contacts.aspx" runat="server">Contact</asp:HyperLink><br />
+                            <asp:HyperLink ID="hlContacts" NavigateUrl="~/Contacts.aspx" runat="server">Contacts</asp:HyperLink><br />
                         </li>
                     </ul>
                 </div>
                 <div class="col-sm-4">
                     <asp:Label ID="lblMessage" runat="server" Text="" />
+                </div>
+
+                <div class="col-sm-4" style="text-align: right;">
+                    <asp:Label ID="label5" runat="server" Text="[" Font-Size="12px" Visible="true"></asp:Label>
+                    <asp:LinkButton ID="lbNewContact" runat="server" Font-Size="12px" OnClick="lbNewContact_Click">New Contact</asp:LinkButton>
+                    <asp:Label ID="Label6" runat="server" Text="]" Font-Size="12px" Visible="true"></asp:Label>
                 </div>
                 
             </div>
@@ -81,22 +87,27 @@
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:BoundField>
+
+                            <asp:BoundField DataField="NoLinkedClients" HeaderText="No. of Linked Clients">
+                                <HeaderStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
                            
  
-                            <%-- Delete Client --%>
+                            <%-- Delete Contact --%>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbDelClient" Text="Del" runat="server"
-                                        OnClientClick="return confirm('Are you sure you want to delete this client?');" CommandName="Delete" />
+                                    <asp:LinkButton ID="lbDelContact" Text="Del" runat="server"
+                                        OnClientClick="return confirm('Are you sure you want to delete this contact?');" CommandName="Delete" />
                                 </ItemTemplate>
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" Width="50px" />
                             </asp:TemplateField>
  
-                            <%-- Update Client --%>
+                            <%-- Update Contact --%>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbUpdClient" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                    <asp:LinkButton ID="lbUpdContact" runat="server" CommandArgument='<%# Eval("ID") %>'
                                         CommandName="UpdClient" Text="Upd" CausesValidation="false"></asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
@@ -105,7 +116,89 @@
                     </asp:GridView>
                 </div>
             </div>
-        
+
+            <!-- Modal to Add New or View / Update a Contact Details-->
+            <div class="modal fade" id="modContactDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="width: 600px;">
+                    <div class="modal-content" style="font-size: 11px;">
+ 
+                        <div class="modal-header" style="text-align: center;">
+                            <asp:Label ID="lblContactNew" runat="server" Text="Add New Contact" Font-Size="24px" Font-Bold="true" />
+                            <asp:Label ID="lblContactUpd" runat="server" Text="View / Update a Contact" Font-Size="24px" Font-Bold="true" />
+                        </div>
+ 
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+ 
+                                    <%-- Contact Details Textboxes --%>
+                                    
+                                        <div class="row" style="margin-top: 20px;">
+                    
+                                            <div class="col-sm-1"></div>
+                                            <%-- first name --%>
+                                            <div class="col-sm-10"> <%-- Use form-inline class for inline layout --%>
+                                                <asp:TextBox ID="txtContactName" runat="server" MaxLength="255" CssClass="form-control input-xs" 
+                                                    ToolTip="Name"
+                                                    AutoCompleteType="Disabled" placeholder="Name" />
+                                                <asp:Label runat="server" ID="lblClientID" Visible="false" Font-Size="12px" />
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-sm-1"></div>
+                                            <%-- surname --%>
+                                            <div class="col-sm-10"> 
+                                                <asp:TextBox ID="txtContactSurname" runat="server" MaxLength="255" CssClass="form-control input-xs" 
+                                                    ToolTip="Surname"
+                                                    AutoCompleteType="Disabled" placeholder="Surname" />
+                                                <asp:Label runat="server" ID="Label1" Visible="false" Font-Size="12px" />
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                        <div class="row" style="margin-top: 20px;">
+                                            <div class="col-sm-1"></div>
+                                            <%-- email --%>
+                                            <div class="col-sm-10"> 
+                                                <asp:TextBox ID="txtContactEmail" runat="server" MaxLength="255" CssClass="form-control input-xs" 
+                                                    ToolTip="Email Address" AutoCompleteType="Disabled" placeholder="Email Address" />
+                                                <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtContactEmail"
+                                                    ErrorMessage="Invalid email format" ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
+                                                    ValidationGroup="vgContacts" OnServerValidate="revEmail_ServerValidate"/>
+                                            </div>
+                                            
+                                            <div class="col-sm-1"></div>
+                                            
+                                        </div>
+            
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+ 
+                        <%-- Add, Update and Cancel Buttons --%>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnAddContact" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
+                                Text="Add Contact"
+                                Visible="true" CausesValidation="true"
+                                OnClick="btnAddContact_Click"
+                                ValidationGroup="vgContacts"
+                                UseSubmitBehavior="false" />
+                            <asp:Button ID="btnUpdContact" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
+                                Text="Update Contact"
+                                Visible="false" CausesValidation="false"
+                                OnClick="btnUpdContact_Click"
+                                UseSubmitBehavior="false" />
+                            <asp:Button ID="btnClose" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                                Text="Close" CausesValidation="false"
+                                UseSubmitBehavior="false" />
+                        </div>
+ 
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </form>
 </body>
