@@ -22,6 +22,7 @@ namespace connecticut
             {
                 DoGridView();
                 DoLinkedContactsGridView();
+                DoContactsGridView();
             }
         }
         private void DoGridView()
@@ -38,6 +39,28 @@ namespace connecticut
 
                     gvClients.DataSource = myDr;
                     gvClients.DataBind();
+
+                    myDr.Close();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in Clients doGridView: " + ex.Message; }
+            finally { myCon.Close(); }
+        }
+
+        private void DoContactsGridView()
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("dbo.GetContacts", myCon))
+                {
+                    myCom.Connection = myCon;
+                    myCom.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader myDr = myCom.ExecuteReader();
+
+                    gvContacts.DataSource = myDr;
+                    gvContacts.DataBind();
 
                     myDr.Close();
                 }
@@ -70,6 +93,8 @@ namespace connecticut
                 myCon.Close();
             }
         }
+
+        
         protected void lbNewClient_Click(object sender, EventArgs e)
         {
             try
@@ -85,6 +110,7 @@ namespace connecticut
             }
             catch (Exception) { throw; }
         }
+
         protected void btnAddClient_Click(object sender, EventArgs e)
         {
             try
@@ -135,8 +161,12 @@ namespace connecticut
 
                 gvClients_RowCommandUpdate(Client_ID);
             }
-            else if (e.CommandName == "SlcClient") {
+            else if (e.CommandName == "SlcClient")
+            {
                 gvClients_RowCommandSelect(Client_ID);
+            }
+            else if (e.CommandName == "lnkClient") {
+                gvClients_RowCommandLink(Client_ID);
             }
         }
 
@@ -158,6 +188,16 @@ namespace connecticut
         protected void gvClients_RowCommandSelect(int Client_ID)
         {
             GetClient(Client_ID);
+        }
+
+        protected void gvClients_RowCommandLink(int Client_ID)
+        {
+            //take client id
+            //open modal with list of contacts
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openContactsDetail();", true);
+
+            //when click link next to contact
+            //link current client id to contact in table ClientContact
         }
         protected void gvClients_RowDeleting(Object sender, GridViewDeleteEventArgs e)
         {
@@ -226,5 +266,7 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in Companies UpdClient: " + ex.Message; }
             finally { myCon.Close(); }
         }
+
+        
     }
 }
