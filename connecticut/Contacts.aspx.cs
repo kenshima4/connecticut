@@ -22,6 +22,8 @@ namespace connecticut
             if (!IsPostBack)
             {
                 DoGridView();
+                DoClientsGridView();
+
             }
         }
         private void DoGridView()
@@ -46,7 +48,29 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
-        private void DoLinkedContactsGridView()
+        private void DoClientsGridView()
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("dbo.GetClients", myCon))
+                {
+                    myCom.Connection = myCon;
+                    myCom.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader myDr = myCom.ExecuteReader();
+
+                    gvClients.DataSource = myDr;
+                    gvClients.DataBind();
+
+                    myDr.Close();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in Clients doGridView: " + ex.Message; }
+            finally { myCon.Close(); }
+        }
+
+        private void DoLinkedClientsGridView()
         {
             try
             {
@@ -157,6 +181,11 @@ namespace connecticut
             {
                 gvContacts_RowCommandSelect(Contact_ID);
             }
+
+            else if (e.CommandName == "LnkContact")
+            {
+                gvContacts_RowCommandLink();
+            }
         }
 
         protected void gvContacts_RowCommandUpdate(int Contact)
@@ -177,10 +206,31 @@ namespace connecticut
         protected void gvContacts_RowCommandSelect(int Contact_ID)
         {
             GetContact(Contact_ID);
-            DoLinkedContactsGridView();
+            DoLinkedClientsGridView();
         }
 
-        
+        protected void gvContacts_RowCommandLink()
+
+        {
+            // Open modal with list of contacts
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openClientsDetail();", true);
+        }
+
+        protected void gvClients_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int Client_ID = Convert.ToInt32(e.CommandArgument);
+            // Retrieve the selected client ID from ViewState
+            if (ViewState["Contact_ID"] != null && ViewState["Contact_ID"] is int)
+            {
+                int Contact_ID = (int)ViewState["Contact_ID"];
+
+
+                if (e.CommandName == "LnkClient")
+                {
+                    linkToClient(Client_ID, Contact_ID);
+                }
+            }
+        }
 
         protected void gvContacts_RowDeleting(Object sender, GridViewDeleteEventArgs e)
         {
@@ -253,6 +303,30 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in Companies UpdClient: " + ex.Message; }
             finally { myCon.Close(); }
         }
-        
+
+
+        protected void linkToClient(int Client_ID, int Contact_ID)
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("dbo.LinkClientToContact", myCon))
+                {
+                    // Link client id to contact id
+                    myCom.CommandType = CommandType.StoredProcedure;
+                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = Client_ID;
+                    myCom.Parameters.Add("@ContactID", SqlDbType.Int).Value = Contact_ID;
+
+                    myCom.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in linkToContact: " + ex.Message; }
+            finally
+            {
+                myCon.Close();
+                DoLinkedClientsGridView();
+                DoGridView();
+            }
+        }
     }
 }

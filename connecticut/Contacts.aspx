@@ -15,6 +15,11 @@
             //alert("Opening modal!");
             $('#modContactDetail').modal('show');
         }
+
+        function openClientsDetail() {
+            //alert("Opening modal!");
+            $('#modClientsDetail').modal('show');
+        }
     </script>
  
 </head>
@@ -141,7 +146,7 @@
                 <div class="col-xs-12">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#tabGeneral">General</a></li>
-                        <li><a data-toggle="tab" href="#tabContacts">Contact(s)</a></li>
+                        <li><a data-toggle="tab" href="#tabClients">Client(s)</a></li>
                     </ul>
  
                     <div class="tab-content">
@@ -263,6 +268,61 @@
                                 UseSubmitBehavior="false" />
                         </div>
  
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal to Show Avaiable Clients -->
+            <div class="modal fade" id="modClientsDetail" tabindex="-1" role="dialog" aria-labelledby="clientsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modClientsLabel">Available Clients</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Display the list of clients here -->
+                            <asp:GridView ID="gvClients" runat="server" AutoGenerateColumns="False" AllowSorting="True"
+                            DataKeyNames="ID"
+                            CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                            OnRowCommand="gvClients_RowCommand"
+                            EmptyDataText="No Client(s) found!">
+                                <Columns>
+                                    
+                                     <asp:BoundField DataField="Name" HeaderText="Client Name">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+
+                                    <asp:BoundField DataField="ClientCode" HeaderText="Client Code">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                    
+
+                                    <asp:BoundField DataField="NoLinkedContacts" HeaderText="No. of Linked Contacts">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+
+                                    <%-- Link To Client --%>
+                                    <asp:TemplateField HeaderText="">
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="lbLnkToClient" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                                CommandName="LnkClient" Text="Link" CausesValidation="false"></asp:LinkButton>
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                    </asp:TemplateField>
+
+                                    
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
