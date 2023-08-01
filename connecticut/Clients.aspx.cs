@@ -163,11 +163,13 @@ namespace connecticut
             Client_ID = Convert.ToInt32(e.CommandArgument);
             // Store the selected client ID in ViewState
             ViewState["Client_ID"] = Client_ID;
-            
 
-            if (e.CommandName == "UpdClient")
+            if (e.CommandName == "DelClient")
             {
-
+                gvClients_RowCommandDelete(Client_ID);
+            }
+            else if (e.CommandName == "UpdClient")
+            {
                 gvClients_RowCommandUpdate(Client_ID);
             }
             else if (e.CommandName == "SlcClient")
@@ -177,6 +179,23 @@ namespace connecticut
             else if (e.CommandName == "LnkClient") {
                 gvClients_RowCommandLink();
             }
+        }
+        protected void gvClients_RowCommandDelete(int Client_ID)
+        {
+            try
+            {
+                myCon.Open();
+
+                using (SqlCommand cmd = new SqlCommand("dbo.DeleteClient", myCon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ClientID", SqlDbType.Int).Value = Client_ID;
+                    cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in gvClients_RowCommandDelete: " + ex.Message; }
+            finally { myCon.Close(); }
+            DoGridView();
         }
 
         protected void gvClients_RowCommandUpdate(int Client_ID) 
@@ -245,24 +264,7 @@ namespace connecticut
                 DoGridView();
             }
         }
-        protected void gvClients_RowDeleting(Object sender, GridViewDeleteEventArgs e)
-        {
-            Client_ID = Convert.ToInt32(gvClients.DataKeys[e.RowIndex].Value.ToString());
-            try
-            {
-                myCon.Open();
-
-                using (SqlCommand cmd = new SqlCommand("dbo.DelClient", myCon))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = Client_ID;
-                    cmd.ExecuteScalar();
-                }
-            }
-            catch (Exception ex) { lblMessage.Text = "Error in gvClients_RowDeleting: " + ex.Message; }
-            finally { myCon.Close(); }
-            DoGridView();
-        }
+        
         private void GetClient(int Client_ID)
         {
             try
