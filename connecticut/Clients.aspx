@@ -225,17 +225,17 @@
  
                         <%-- Add, Update and Cancel Buttons --%>
                         <div class="modal-footer">
-                            <asp:Button ID="btnAddClient" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                            <asp:Button ID="btnAddClient" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
                                 Text="Add Client"
                                 Visible="true" CausesValidation="false"
                                 OnClick="btnAddClient_Click"
                                 UseSubmitBehavior="false" />
-                            <asp:Button ID="btnUpdClient" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
+                            <asp:Button ID="btnUpdClient" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
                                 Text="Update Client"
                                 Visible="false" CausesValidation="false"
                                 OnClick="btnUpdClient_Click"
                                 UseSubmitBehavior="false" />
-                            <asp:Button ID="btnClose" runat="server" class="btn btn-info button-xs" data-dismiss="modal" 
+                            <asp:Button ID="btnClose" runat="server" class="btn btn-danger button-xs" data-dismiss="modal" 
                                 Text="Close" CausesValidation="false"
                                 UseSubmitBehavior="false" />
                         </div>
