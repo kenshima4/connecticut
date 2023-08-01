@@ -15,6 +15,11 @@
             //alert("Opening modal!");
             $('#modClientDetail').modal('show');
         }
+
+        function openContactsDetail() {
+            //alert("Opening modal!");
+            $('#modContactsDetail').modal('show');
+        }
     </script>
  
 </head>
@@ -44,10 +49,11 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <asp:Label ID="lblMessage" runat="server" Text="" />
                 </div>
-                <div class="col-sm-4" style="text-align: right;">
+                <%-- New Client Action --%>
+                <div class="col-sm-6" style="text-align: right;">
                     <asp:Label ID="Label5" runat="server" Text="[" Font-Size="12px" Visible="true"></asp:Label>
                     <asp:LinkButton ID="lbNewClient" runat="server" Font-Size="12px" OnClick="lbNewClient_Click">New Client</asp:LinkButton>
                     <asp:Label ID="Label6" runat="server" Text="]" Font-Size="12px" Visible="true"></asp:Label>
@@ -102,7 +108,7 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                             </asp:TemplateField>
-
+                            
                             <%-- Select Client --%>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
@@ -111,6 +117,16 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                             </asp:TemplateField>
+
+                            <%-- Link Client --%>
+                            <asp:TemplateField HeaderText="">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbLnkClient" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                        CommandName="LnkClient" Text="Link" CausesValidation="false"></asp:LinkButton>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="80px" />
+                            </asp:TemplateField>
+                            
                         </Columns>
                     </asp:GridView>
 
@@ -141,8 +157,7 @@
                         </div>
  
                         <!-- Contact(s) Tab with gridview-->
-                        <%-- Gridview List Clients --%>
-                        <div id="tabContacts" class="row tab-pane fade in active" style="margin-top: 20px;">
+                        <div id="tabContacts" class="row tab-pane fade in" style="margin-top: 20px;">
                             <div class="col-sm-12">
                                 <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                                     DataKeyNames="ID"
@@ -152,8 +167,8 @@
                                     EmptyDataText="No Contacts found!">
                                     <Columns>
                                     <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:BoundField DataField="EmailAddress" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:HyperLinkField DataNavigateUrlFields="ContactID" DataNavigateUrlFormatString="UnlinkContact.aspx?contactID={0}" 
+                                    <asp:BoundField DataField="Email" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:HyperLinkField DataNavigateUrlFields="URL" DataNavigateUrlFormatString="UnlinkContact.aspx?contactID={0}" 
                                         Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
                                 </Columns>
                                 </asp:GridView>
@@ -227,6 +242,63 @@
                                 UseSubmitBehavior="false" />
                         </div>
  
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal to Show Avaiable Contacts -->
+            <div class="modal fade" id="modContactsDetail" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modContactsLabel">Available Contacts</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Display the list of contacts here -->
+                            <asp:GridView ID="gvContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
+                            DataKeyNames="ID"
+                            CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                            OnRowCommand="gvContacts_RowCommand"
+                            EmptyDataText="No Contact(s) found!">
+                                <Columns>
+                                    
+                                     <asp:BoundField DataField="Name" HeaderText="Name">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Surname" HeaderText="Surname">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Email" HeaderText="Email">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+
+                                    <asp:BoundField DataField="NoLinkedClients" HeaderText="No. of Linked Clients">
+                                        <HeaderStyle HorizontalAlign="Center" />
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:BoundField>
+
+                                    <%-- Link To Contact--%>
+                                    <asp:TemplateField HeaderText="">
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="lbLnkToContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                                CommandName="LnkContact" Text="Link" CausesValidation="false"></asp:LinkButton>
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                    </asp:TemplateField>
+
+                                    
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>

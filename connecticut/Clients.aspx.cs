@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Diagnostics;
 using connecticut.Classes;
 namespace connecticut
 {
@@ -21,9 +21,11 @@ namespace connecticut
             if (!IsPostBack)
             {
                 DoGridView();
-                DoLinkedContactsGridView();
+                DoContactsGridView();
             }
         }
+
+        
         private void DoGridView()
         {
             try
@@ -46,13 +48,40 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
+        private void DoContactsGridView()
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("dbo.GetContacts", myCon))
+                {
+                    myCom.Connection = myCon;
+                    myCom.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader myDr = myCom.ExecuteReader();
+
+                    gvContacts.DataSource = myDr;
+                    gvContacts.DataBind();
+
+                    myDr.Close();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in Clients doGridView: " + ex.Message; }
+            finally { myCon.Close(); }
+        }
+
         private void DoLinkedContactsGridView()
         {
             try
             {
                 myCon.Open();
-                using (SqlCommand myCom = new SqlCommand("SELECT * FROM ClientContacts", myCon))
+                using (SqlCommand myCom = new SqlCommand("dbo.GetClientContacts", myCon))
                 {
+                    myCom.Connection = myCon;
+                    myCom.CommandType = CommandType.StoredProcedure;
+
+                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = (int)ViewState["Client_ID"];
+
                     SqlDataReader myDr = myCom.ExecuteReader();
 
                     gvLinkedContacts.DataSource = myDr;
@@ -70,6 +99,8 @@ namespace connecticut
                 myCon.Close();
             }
         }
+
+        
         protected void lbNewClient_Click(object sender, EventArgs e)
         {
             try
@@ -85,6 +116,7 @@ namespace connecticut
             }
             catch (Exception) { throw; }
         }
+
         protected void btnAddClient_Click(object sender, EventArgs e)
         {
             try
@@ -129,14 +161,21 @@ namespace connecticut
         protected void gvClients_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             Client_ID = Convert.ToInt32(e.CommandArgument);
+            // Store the selected client ID in ViewState
+            ViewState["Client_ID"] = Client_ID;
+            
 
             if (e.CommandName == "UpdClient")
             {
 
                 gvClients_RowCommandUpdate(Client_ID);
             }
-            else if (e.CommandName == "SlcClient") {
+            else if (e.CommandName == "SlcClient")
+            {
                 gvClients_RowCommandSelect(Client_ID);
+            }
+            else if (e.CommandName == "LnkClient") {
+                gvClients_RowCommandLink();
             }
         }
 
@@ -158,11 +197,57 @@ namespace connecticut
         protected void gvClients_RowCommandSelect(int Client_ID)
         {
             GetClient(Client_ID);
+            DoLinkedContactsGridView();
+        }
+
+        protected void gvClients_RowCommandLink()
+
+        {
+            // Open modal with list of contacts
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openContactsDetail();", true);
+        }
+
+        protected void gvContacts_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int Contact_ID = Convert.ToInt32(e.CommandArgument);
+            // Retrieve the selected client ID from ViewState
+            if (ViewState["Client_ID"] != null && ViewState["Client_ID"] is int)
+            {
+                int Client_ID = (int)ViewState["Client_ID"];
+               
+
+                if (e.CommandName == "LnkContact")
+                {
+                    linkToContact(Client_ID, Contact_ID);
+                }
+            }
+        }
+
+        protected void linkToContact(int Client_ID, int Contact_ID)
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("dbo.LinkClientToContact", myCon))
+                {
+                    // Link client id to contact id
+                    myCom.CommandType = CommandType.StoredProcedure;
+                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = Client_ID;
+                    myCom.Parameters.Add("@ContactID", SqlDbType.Int).Value = Contact_ID;
+
+                    myCom.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in linkToContact: " + ex.Message; }
+            finally { 
+                myCon.Close();
+                DoLinkedContactsGridView();
+                DoGridView();
+            }
         }
         protected void gvClients_RowDeleting(Object sender, GridViewDeleteEventArgs e)
         {
             Client_ID = Convert.ToInt32(gvClients.DataKeys[e.RowIndex].Value.ToString());
-
             try
             {
                 myCon.Open();
@@ -178,7 +263,7 @@ namespace connecticut
             finally { myCon.Close(); }
             DoGridView();
         }
-        private void GetClient(int Comp_ID)
+        private void GetClient(int Client_ID)
         {
             try
             {
@@ -187,7 +272,7 @@ namespace connecticut
                 {
                     myCmd.Connection = myCon;
                     myCmd.CommandType = CommandType.StoredProcedure;
-                    myCmd.Parameters.Add("@ID", SqlDbType.Int).Value = Comp_ID;
+                    myCmd.Parameters.Add("@ID", SqlDbType.Int).Value = Client_ID;
                     SqlDataReader myDr = myCmd.ExecuteReader();
 
                     if (myDr.HasRows)
@@ -226,5 +311,7 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in Companies UpdClient: " + ex.Message; }
             finally { myCon.Close(); }
         }
+
+        
     }
 }
