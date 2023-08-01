@@ -157,7 +157,7 @@
                         </div>
  
                         <!-- Contact(s) Tab with gridview-->
-                        <div id="tabContacts" class="row tab-pane fade in active" style="margin-top: 20px;">
+                        <div id="tabContacts" class="row tab-pane fade in" style="margin-top: 20px;">
                             <div class="col-sm-12">
                                 <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                                     DataKeyNames="ID"
