@@ -162,8 +162,6 @@
                                 <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                                     DataKeyNames="ID"
                                     CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
-                                    OnRowDeleting="gvClients_RowDeleting"
-                                    OnRowCommand="gvClients_RowCommand"
                                     EmptyDataText="No Contacts found!">
                                     <Columns>
                                     <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
