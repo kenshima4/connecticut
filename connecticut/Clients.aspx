@@ -66,7 +66,6 @@
                     <asp:GridView ID="gvClients" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                         DataKeyNames="ID"
                         CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
-                        OnRowDeleting="gvClients_RowDeleting"
                         OnRowCommand="gvClients_RowCommand"
                         EmptyDataText="No Client(s) found!">
                         <Columns>
@@ -94,7 +93,9 @@
                             <asp:TemplateField>
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbDelClient" Text="Del" runat="server"
-                                        OnClientClick="return confirm('Are you sure you want to delete this client?');" CommandName="Delete" />
+                                        OnClientClick="return confirm('Are you sure you want to delete this client?');" 
+                                        CommandArgument='<%# Eval("ID") %>' CommandName="DelClient"/>
+                                    
                                 </ItemTemplate>
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" Width="50px" />
