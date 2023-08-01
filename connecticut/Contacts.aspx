@@ -113,6 +113,15 @@
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                             </asp:TemplateField>
 
+                            <%-- Select Contact --%>
+                            <asp:TemplateField HeaderText="">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbSlcContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                        CommandName="SlcContact" Text="Select" CausesValidation="false"></asp:LinkButton>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="80px" />
+                            </asp:TemplateField>
+
                             <%-- Link --%>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
@@ -124,6 +133,55 @@
 
                         </Columns>
                     </asp:GridView>
+                </div>
+            </div>
+
+            <!-- Tabs for Contact info -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tabGeneral">General</a></li>
+                        <li><a data-toggle="tab" href="#tabContacts">Contact(s)</a></li>
+                    </ul>
+ 
+                    <div class="tab-content">
+                        <!-- General Tab -->
+                        <div id="tabGeneral" class="tab-pane fade in active">
+                            <h3>General</h3>
+                            <div class="form-group">
+                                <label for="lblContactName">Name:</label>
+                                <asp:TextBox ID="txtBoxContactName" runat="server" CssClass="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="lblContactSurname">Surname:</label>
+                                <asp:TextBox ID="txtBoxContactSurname" runat="server" CssClass="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="lblContactEmail">Email:</label>
+                                <asp:TextBox ID="txtBoxContactEmail" runat="server" CssClass="form-control" />
+                            </div>
+                        </div>
+ 
+                        <!-- Client(s) Tab with gridview-->
+                        <div id="tabClients" class="row tab-pane fade in" style="margin-top: 20px;">
+                            <div class="col-sm-12">
+                                <asp:GridView ID="gvLinkedClients" runat="server" AutoGenerateColumns="False" AllowSorting="True"
+                                    DataKeyNames="ID"
+                                    CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                                    EmptyDataText="No Client(s) found!">
+                                    <Columns>
+                                    <asp:BoundField DataField="Name" HeaderText="Client Name" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:BoundField DataField="ClientCode" HeaderText="Client Code" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:HyperLinkField DataNavigateUrlFields="URL" DataNavigateUrlFormatString="UnlinkContact.aspx?clientID={0}" 
+                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
+                                </Columns>
+                                </asp:GridView>
+
+
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
 

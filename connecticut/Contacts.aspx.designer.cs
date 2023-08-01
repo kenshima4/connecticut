@@ -105,6 +105,42 @@ namespace connecticut
         protected global::System.Web.UI.WebControls.GridView gvContacts;
 
         /// <summary>
+        /// txtBoxContactName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBoxContactName;
+
+        /// <summary>
+        /// txtBoxContactSurname control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBoxContactSurname;
+
+        /// <summary>
+        /// txtBoxContactEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBoxContactEmail;
+
+        /// <summary>
+        /// gvLinkedClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvLinkedClients;
+
+        /// <summary>
         /// lblContactNew control.
         /// </summary>
         /// <remarks>
