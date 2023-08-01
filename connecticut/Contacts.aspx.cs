@@ -46,6 +46,36 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
+        private void DoLinkedContactsGridView()
+        {
+            try
+            {
+                myCon.Open();
+                using (SqlCommand myCom = new SqlCommand("dbo.GetContactClients", myCon))
+                {
+                    myCom.Connection = myCon;
+                    myCom.CommandType = CommandType.StoredProcedure;
+
+                    myCom.Parameters.Add("@ContactID", SqlDbType.Int).Value = (int)ViewState["Contact_ID"];
+
+                    SqlDataReader myDr = myCom.ExecuteReader();
+
+                    gvLinkedClients.DataSource = myDr;
+                    gvLinkedClients.DataBind();
+
+                    myDr.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error in DoLinkedContactsGridView: " + ex.Message;
+            }
+            finally
+            {
+                myCon.Close();
+            }
+        }
+
         protected void lbNewContact_Click(object sender, EventArgs e)
         {
             try
@@ -115,15 +145,30 @@ namespace connecticut
 
         protected void gvContacts_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            Contact_ID = Convert.ToInt32(e.CommandArgument);
+            // Store the selected client ID in ViewState
+            ViewState["Contact_ID"] = Contact_ID;
+
             if (e.CommandName == "UpdContact")
             {
-                Contact_ID = Convert.ToInt32(e.CommandArgument);
+                
 
                 GetContact(Contact_ID);
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openContactDetail();", true);
             }
+            else if (e.CommandName == "SlcContact") {
+                gvContacts_RowCommandSelect(Contact_ID);
+            }
         }
+
+        protected void gvContacts_RowCommandSelect(int Contact_ID)
+        {
+            GetContact(Contact_ID);
+            DoLinkedContactsGridView();
+        }
+
+        
 
         protected void gvContacts_RowDeleting(Object sender, GridViewDeleteEventArgs e)
         {
@@ -145,31 +190,31 @@ namespace connecticut
             DoGridView();
         }
 
-        private void GetContact(int Comp_ID)
+        private void GetContact(int Contact_ID)
         {
             try
             {
                 myCon.Open();
-                using (SqlCommand myCmd = new SqlCommand("dbo.GetContacts", myCon))
+                using (SqlCommand myCmd = new SqlCommand("dbo.GetContact", myCon))
                 {
                     myCmd.Connection = myCon;
                     myCmd.CommandType = CommandType.StoredProcedure;
-                    myCmd.Parameters.Add("@ID", SqlDbType.Int).Value = Comp_ID;
+                    myCmd.Parameters.Add("@ID", SqlDbType.Int).Value = Contact_ID;
                     SqlDataReader myDr = myCmd.ExecuteReader();
 
                     if (myDr.HasRows)
                     {
                         while (myDr.Read())
                         {
-                            //txtClientName.Text = myDr.GetValue(1).ToString();
-                            //txtClientCode.Text = myDr.GetValue(2).ToString();
+                            txtBoxContactName.Text = myDr.GetValue(0).ToString();
+                            txtBoxContactSurname.Text = myDr.GetValue(1).ToString();
+                            txtBoxContactEmail.Text = myDr.GetValue(2).ToString();
 
-                            //lblClientID.Text = Client_ID.ToString();
                         }
                     }
                 }
             }
-            catch (Exception ex) { lblMessage.Text = "Error in Companies GetCompany: " + ex.Message; }
+            catch (Exception ex) { lblMessage.Text = "Error in Contacts GetContact: " + ex.Message; }
             finally { myCon.Close(); }
         }
 
