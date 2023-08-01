@@ -69,7 +69,6 @@
                     <asp:GridView ID="gvContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                         DataKeyNames="ID"
                         CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
-                        OnRowDeleting="gvContacts_RowDeleting"
                         OnRowCommand="gvContacts_RowCommand"
                         EmptyDataText="No Contact(s) found!">
                         <Columns>
@@ -102,8 +101,9 @@
                             <%-- Delete Contact --%>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbDelContact" Text="Del" runat="server"
-                                        OnClientClick="return confirm('Are you sure you want to delete this contact?');" CommandName="Delete" />
+                                    <asp:LinkButton ID="lbDelContact" Text="Del" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                        OnClientClick="return confirm('Are you sure you want to delete this contact?');" 
+                                        CommandName="DelContact" CausesValidation="false"/>
                                 </ItemTemplate>
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" Width="50px" />

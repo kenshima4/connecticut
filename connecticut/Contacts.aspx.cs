@@ -121,13 +121,11 @@ namespace connecticut
         protected void revEmail_ServerValidate(object source, ServerValidateEventArgs args)
         {
             // Validate the email format using the regular expression
-            args.IsValid = Utils.isValidEmail(txtContactEmail.Text);
+            args.IsValid = Utils.isValidEmail(txtContactEmail.Text); 
         }
 
         protected void btnAddContact_Click(object sender, EventArgs e)
         {
-            
-
             try
             {
                 myCon.Open();
@@ -156,7 +154,7 @@ namespace connecticut
                     contacts.Add(newContact);
                 }
             }
-            catch (Exception ex) { lblMessage.Text = "Error in btnAddClient_Click: " + ex.Message; }
+            catch (Exception ex) { lblMessage.Text = "Error: " + ex.Message; }
             finally { myCon.Close(); }
             DoGridView();
         }
@@ -173,7 +171,11 @@ namespace connecticut
             // Store the selected client ID in ViewState
             ViewState["Contact_ID"] = Contact_ID;
 
-            if (e.CommandName == "UpdContact")
+            if (e.CommandName == "DelContact")
+            {
+                gvContacts_RowCommandDelete(Contact_ID);
+            }
+            else if (e.CommandName == "UpdContact")
             {
                 gvContacts_RowCommandUpdate(Contact_ID);
             }
@@ -186,6 +188,24 @@ namespace connecticut
             {
                 gvContacts_RowCommandLink();
             }
+        }
+
+        protected void gvContacts_RowCommandDelete(int Contact_ID)
+        {
+            try
+            {
+                myCon.Open();
+
+                using (SqlCommand cmd = new SqlCommand("dbo.DeleteContact", myCon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = Contact_ID;
+                    cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception ex) { lblMessage.Text = "Error in gvContacts_RowCommandDelete: " + ex.Message; }
+            finally { myCon.Close(); }
+            DoGridView();
         }
 
         protected void gvContacts_RowCommandUpdate(int Contact)
