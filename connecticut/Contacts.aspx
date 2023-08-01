@@ -108,7 +108,7 @@
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbUpdContact" runat="server" CommandArgument='<%# Eval("ID") %>'
-                                        CommandName="UpdClient" Text="Upd" CausesValidation="false"></asp:LinkButton>
+                                        CommandName="UpdContact" Text="Upd" CausesValidation="false"></asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                             </asp:TemplateField>
