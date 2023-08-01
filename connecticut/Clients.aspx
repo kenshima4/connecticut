@@ -122,7 +122,7 @@
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbLnkClient" runat="server" CommandArgument='<%# Eval("ID") %>'
-                                        CommandName="lbLinkClient_Click" Text="Link" CausesValidation="false"></asp:LinkButton>
+                                        CommandName="LnkClient" Text="Link" CausesValidation="false"></asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                             </asp:TemplateField>
@@ -167,8 +167,8 @@
                                     EmptyDataText="No Contacts found!">
                                     <Columns>
                                     <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:BoundField DataField="EmailAddress" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:HyperLinkField DataNavigateUrlFields="ContactID" DataNavigateUrlFormatString="UnlinkContact.aspx?contactID={0}" 
+                                    <asp:BoundField DataField="Email" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:HyperLinkField DataNavigateUrlFields="URL" DataNavigateUrlFormatString="UnlinkContact.aspx?contactID={0}" 
                                         Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
                                 </Columns>
                                 </asp:GridView>
@@ -258,7 +258,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
                             <!-- Display the list of contacts here -->
-                            <asp:GridView ID="gvContacts" runat="server" AutoGenerateColumns="false">
+                            <asp:GridView ID="gvContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
+                            DataKeyNames="ID"
+                            CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                            OnRowCommand="gvContacts_RowCommand"
+                            EmptyDataText="No Contact(s) found!">
                                 <Columns>
                                     
                                      <asp:BoundField DataField="Name" HeaderText="Name">
@@ -279,7 +283,14 @@
                                         <ItemStyle HorizontalAlign="Center" />
                                     </asp:BoundField>
 
-                                    
+                                    <%-- Link To Contact--%>
+                                    <asp:TemplateField HeaderText="">
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="lbLnkToContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                                CommandName="LnkContact" Text="Link" CausesValidation="false"></asp:LinkButton>
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                    </asp:TemplateField>
 
                                     
                                 </Columns>
