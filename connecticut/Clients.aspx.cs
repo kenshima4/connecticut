@@ -221,16 +221,10 @@ namespace connecticut
                     linkToContact(Client_ID, Contact_ID);
                 }
             }
-            
-
-            
         }
 
         protected void linkToContact(int Client_ID, int Contact_ID)
         {
-            Debug.WriteLine("Client ID" + Client_ID);
-            Debug.WriteLine("Contact ID" + Contact_ID);
-            
             try
             {
                 myCon.Open();
@@ -250,17 +244,10 @@ namespace connecticut
                 DoLinkedContactsGridView();
                 DoGridView();
             }
-            
-
-
-
-
-
         }
         protected void gvClients_RowDeleting(Object sender, GridViewDeleteEventArgs e)
         {
             Client_ID = Convert.ToInt32(gvClients.DataKeys[e.RowIndex].Value.ToString());
-
             try
             {
                 myCon.Open();
