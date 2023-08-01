@@ -13,7 +13,7 @@ namespace connecticut
 {
     public partial class Clients : System.Web.UI.Page
     {
-        int Client_ID;
+        protected int Client_ID;
         private List <Client> clients = new List<Client>();
         SqlConnection myCon = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
         protected void Page_Load(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
-        private void DoLinkedContactsGridView()
+        private void DoLinkedContactsGridView(int Client_ID)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace connecticut
                     myCom.Connection = myCon;
                     myCom.CommandType = CommandType.StoredProcedure;
 
-                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = (int)ViewState["Client_ID"];
+                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = Client_ID;
 
                     SqlDataReader myDr = myCom.ExecuteReader();
 
@@ -161,6 +161,7 @@ namespace connecticut
         protected void gvClients_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             Client_ID = Convert.ToInt32(e.CommandArgument);
+            
             // Store the selected client ID in ViewState
             ViewState["Client_ID"] = Client_ID;
 
@@ -216,7 +217,7 @@ namespace connecticut
         protected void gvClients_RowCommandSelect(int Client_ID)
         {
             GetClient(Client_ID);
-            DoLinkedContactsGridView();
+            DoLinkedContactsGridView(Client_ID);
         }
 
         protected void gvClients_RowCommandLink()
@@ -260,7 +261,7 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in linkToContact: " + ex.Message; }
             finally { 
                 myCon.Close();
-                DoLinkedContactsGridView();
+                DoLinkedContactsGridView(Client_ID);
                 DoGridView();
             }
         }

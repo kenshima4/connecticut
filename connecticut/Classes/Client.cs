@@ -14,10 +14,12 @@ namespace connecticut.Classes
         public int id { get; set; }
         public string clientCode { get; set; }
         List<Contact> contacts = new List<Contact>();
+        public int noLinkedContacts { get; set; }
 
         public Client(string name) {
             
             this.name = name;
+            noLinkedContacts = 0;
             generateClientCode();
         }
 

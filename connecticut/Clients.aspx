@@ -20,6 +20,49 @@
             //alert("Opening modal!");
             $('#modContactsDetail').modal('show');
         }
+    
+        
+        function unlinkClientContact(Client_ID, Contact_ID) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AjaxAPI/UnlinkContact",
+                    data: '{"Client_ID":"' + Client_ID + '","Contact_ID":"' + Contact_ID + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                
+                });
+        });
+        
+        function unlinkClientContact(Client_ID, Contact_ID) {
+            
+                var person = '{Name: "' + $("#txtName").val() + '" }';
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AjaxAPI/UnlinkContact",
+                    data: '{"Client_ID":"' + Client_ID + '","Contact_ID":"' + Contact_ID + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                
+                });
+        });
     </script>
  
 </head>
@@ -167,8 +210,12 @@
                                     <Columns>
                                     <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
                                     <asp:BoundField DataField="Email" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:HyperLinkField DataNavigateUrlFields="URL" DataNavigateUrlFormatString="UnlinkContact.aspx?contactID={0}" 
-                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
+                                    <asp:HyperLinkField DataNavigateUrlFields="Client_ID, ID"
+                                        DataNavigateUrlFormatString="javascript:unlinkClientContact({0}, {1});"
+                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />  
+                                        
+
+                                  
                                 </Columns>
                                 </asp:GridView>
 
