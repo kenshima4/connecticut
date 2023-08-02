@@ -243,6 +243,22 @@ namespace connecticut
             }
         }
 
+        protected void gvLinkedContacts_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int Contact_ID = Convert.ToInt32(e.CommandArgument);
+            // Retrieve the selected client ID from ViewState
+            if (ViewState["Client_ID"] != null && ViewState["Client_ID"] is int)
+            {
+                int Client_ID = (int)ViewState["Client_ID"];
+
+
+                if (e.CommandName == "unLnkContact")
+                {
+                    unlinkClientContact(Client_ID, Contact_ID);
+                }
+            }
+        }
+
         protected void linkToContact(int Client_ID, int Contact_ID)
         {
             try
@@ -265,7 +281,13 @@ namespace connecticut
                 DoGridView();
             }
         }
-        
+
+        protected void unlinkClientContact(int Client_ID, int Contact_ID)
+        {
+            string script = "unlinkClientContact(" + Client_ID + ", " + Contact_ID + ");";
+            ClientScript.RegisterStartupScript(this.GetType(), "unlinkClientContact", script, true);
+        }
+
         private void GetClient(int Client_ID)
         {
             try

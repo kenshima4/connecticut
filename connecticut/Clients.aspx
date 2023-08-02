@@ -23,46 +23,41 @@
     
         
         function unlinkClientContact(Client_ID, Contact_ID) {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/AjaxAPI/UnlinkContact",
-                    data: '{"Client_ID":"' + Client_ID + '","Contact_ID":"' + Contact_ID + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        alert(response.responseText);
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
+            var requestData = {
+                Client_ID: Client_ID,
+                Contact_ID: Contact_ID
+            };
+
+            var json = JSON.stringify(requestData);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/AjaxAPI/UnlinkContact",
+                data: json,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert(response.Message); // Access the "Message" property directly
+                    console.log(response.Message);
+                },
+                failure: function (response) {
+                    alert(response.Message); 
+                    console.log(response.Message);
+                },
+                error: function (response) {
+                    alert(response.Message); 
+                    console.log(response.Message);
+                }
                 
-                });
-        });
-        
-        function unlinkClientContact(Client_ID, Contact_ID) {
+            });
+
             
-                var person = '{Name: "' + $("#txtName").val() + '" }';
-                $.ajax({
-                    type: "POST",
-                    url: "/api/AjaxAPI/UnlinkContact",
-                    data: '{"Client_ID":"' + Client_ID + '","Contact_ID":"' + Contact_ID + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        alert(response.responseText);
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
-                
-                });
-        });
+            
+        }
+
+        
+        
+        
     </script>
  
 </head>
@@ -206,17 +201,26 @@
                                 <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                                     DataKeyNames="ID"
                                     CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                                    OnRowCommand="gvLinkedContacts_RowCommand"
                                     EmptyDataText="No Contacts found!">
                                     <Columns>
+
                                     <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
                                     <asp:BoundField DataField="Email" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:HyperLinkField DataNavigateUrlFields="Client_ID, ID"
+                                    <asp:TemplateField HeaderText="">
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="lbUnlinkClientContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                             CommandName="unLnkContact" Text="Unlink" CausesValidation="false"></asp:LinkButton>
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                    </asp:TemplateField>
+                                    <%--<asp:HyperLinkField CssClass="unlink-hyperlink"
                                         DataNavigateUrlFormatString="javascript:unlinkClientContact({0}, {1});"
-                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />  
+                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" /> --%>
                                         
 
                                   
-                                </Columns>
+                                    </Columns>
                                 </asp:GridView>
 
 
