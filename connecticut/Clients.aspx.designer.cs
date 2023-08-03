@@ -24,6 +24,15 @@ namespace connecticut
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// hlHome control.
         /// </summary>
         /// <remarks>
@@ -87,6 +96,15 @@ namespace connecticut
         protected global::System.Web.UI.WebControls.Label Label6;
 
         /// <summary>
+        /// upClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upClients;
+
+        /// <summary>
         /// gvClients control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvClients;
+
+        /// <summary>
+        /// upDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upDetails;
 
         /// <summary>
         /// txtBoxClientName control.
@@ -202,5 +229,23 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvContacts;
+
+        /// <summary>
+        /// btnUpDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpDetails;
+
+        /// <summary>
+        /// hdnClientID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnClientID;
     }
 }

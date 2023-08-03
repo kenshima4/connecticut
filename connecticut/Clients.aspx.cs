@@ -13,7 +13,7 @@ namespace connecticut
 {
     public partial class Clients : System.Web.UI.Page
     {
-        int Client_ID;
+        protected int Client_ID;
         private List <Client> clients = new List<Client>();
         SqlConnection myCon = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
         protected void Page_Load(object sender, EventArgs e)
@@ -41,6 +41,8 @@ namespace connecticut
                     gvClients.DataSource = myDr;
                     gvClients.DataBind();
 
+                    upClients.Update();
+
                     myDr.Close();
                 }
             }
@@ -63,6 +65,8 @@ namespace connecticut
                     gvContacts.DataSource = myDr;
                     gvContacts.DataBind();
 
+                    upDetails.Update();
+
                     myDr.Close();
                 }
             }
@@ -70,7 +74,17 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
-        private void DoLinkedContactsGridView()
+        protected void btnUpDetails_Click(object sender, EventArgs e) 
+        {
+            // Get the Client_ID value from the hidden field
+            int Client_ID = Convert.ToInt32(hdnClientID.Value);
+
+            DoLinkedContactsGridView(Client_ID);
+            DoContactsGridView();
+            DoGridView();
+        }
+
+        private void DoLinkedContactsGridView(int Client_ID)
         {
             try
             {
@@ -80,13 +94,14 @@ namespace connecticut
                     myCom.Connection = myCon;
                     myCom.CommandType = CommandType.StoredProcedure;
 
-                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = (int)ViewState["Client_ID"];
+                    myCom.Parameters.Add("@ClientID", SqlDbType.Int).Value = Client_ID;
 
                     SqlDataReader myDr = myCom.ExecuteReader();
 
                     gvLinkedContacts.DataSource = myDr;
                     gvLinkedContacts.DataBind();
 
+                    upDetails.Update();
                     myDr.Close();
                 }
             }
@@ -161,6 +176,7 @@ namespace connecticut
         protected void gvClients_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             Client_ID = Convert.ToInt32(e.CommandArgument);
+            
             // Store the selected client ID in ViewState
             ViewState["Client_ID"] = Client_ID;
 
@@ -216,7 +232,7 @@ namespace connecticut
         protected void gvClients_RowCommandSelect(int Client_ID)
         {
             GetClient(Client_ID);
-            DoLinkedContactsGridView();
+            DoLinkedContactsGridView(Client_ID);
         }
 
         protected void gvClients_RowCommandLink()
@@ -242,6 +258,23 @@ namespace connecticut
             }
         }
 
+        protected void gvLinkedContacts_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int Contact_ID = Convert.ToInt32(e.CommandArgument);
+            // Retrieve the selected client ID from ViewState
+            if (ViewState["Client_ID"] != null && ViewState["Client_ID"] is int)
+            {
+                int Client_ID = (int)ViewState["Client_ID"];
+
+
+                if (e.CommandName == "unLnkContact")
+                {
+                    unlinkClientContact(Client_ID, Contact_ID);
+                }
+
+            }
+        }
+
         protected void linkToContact(int Client_ID, int Contact_ID)
         {
             try
@@ -260,11 +293,19 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in linkToContact: " + ex.Message; }
             finally { 
                 myCon.Close();
-                DoLinkedContactsGridView();
+                DoLinkedContactsGridView(Client_ID);
                 DoGridView();
             }
         }
-        
+
+        protected void unlinkClientContact(int Client_ID, int Contact_ID)
+        {
+            string script = "unlinkClientContact(" + Client_ID + ", " + Contact_ID + ");";
+            // Pass associated update panel to javascript function
+            ScriptManager.RegisterStartupScript(upDetails, this.GetType(), "unlinkClientContact", script, true);
+
+        }
+
         private void GetClient(int Client_ID)
         {
             try
