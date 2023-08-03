@@ -84,11 +84,6 @@ namespace connecticut
             DoGridView();
         }
 
-        protected void btnUpClients_Click(object sender, EventArgs e)
-        {
-           DoGridView();
-        }
-
         private void DoLinkedContactsGridView(int Client_ID)
         {
             try

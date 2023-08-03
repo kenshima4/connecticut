@@ -179,14 +179,8 @@
 
                             
                         </ContentTemplate>
-                        <Triggers>
-                           <asp:AsyncPostBackTrigger ControlID="btnUpClients" EventName="Click" />
-                        </Triggers>
+                        
                     </asp:UpdatePanel>
-                    
-                    <!-- Hidden button for Update Panels update -->
-                    <asp:Button ID="btnUpClients" runat="server" Text="Update GridView" OnClick="btnUpClients_Click" style="display: none;" />
-
                 </div>
             </div>
             
