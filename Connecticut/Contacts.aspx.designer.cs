@@ -96,6 +96,15 @@ namespace connecticut
         protected global::System.Web.UI.WebControls.Label Label6;
 
         /// <summary>
+        /// upContacts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upContacts;
+
+        /// <summary>
         /// gvContacts control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvContacts;
+
+        /// <summary>
+        /// upDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upDetails;
 
         /// <summary>
         /// txtBoxContactName control.
@@ -247,5 +265,23 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvClients;
+
+        /// <summary>
+        /// btnUpDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpDetails;
+
+        /// <summary>
+        /// hdnContactID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnContactID;
     }
 }
