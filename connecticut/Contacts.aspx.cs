@@ -206,6 +206,23 @@ namespace connecticut
             }
         }
 
+        protected void gvLinkedClients_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int Client_ID = Convert.ToInt32(e.CommandArgument);
+            // Retrieve the selected client ID from ViewState
+            if (ViewState["Contact_ID"] != null && ViewState["Contact_ID"] is int)
+            {
+                int Contact_ID = (int)ViewState["Contact_ID"];
+
+
+                if (e.CommandName == "unLnkClient")
+                {
+                    unlinkClientContact(Client_ID, Contact_ID);
+                }
+
+            }
+        }
+
         protected void gvContacts_RowCommandDelete(int Contact_ID)
         {
             try

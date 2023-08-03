@@ -227,12 +227,7 @@
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                                             </asp:TemplateField>
-                                            <%--<asp:HyperLinkField CssClass="unlink-hyperlink"
-                                                DataNavigateUrlFormatString="javascript:unlinkClientContact({0}, {1});"
-                                                Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" /> --%>
-                                        
-
-                                  
+                                            
                                             </Columns>
                                         </asp:GridView>
                                     </div>

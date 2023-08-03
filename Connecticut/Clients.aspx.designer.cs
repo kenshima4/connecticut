@@ -205,6 +205,7 @@ namespace connecticut
 
         /// <summary>
         /// btnUpdClient control.
+        /// btnUpdClient control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.

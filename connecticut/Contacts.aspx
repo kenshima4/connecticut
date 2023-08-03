@@ -220,12 +220,18 @@
                                         <asp:GridView ID="gvLinkedClients" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                                             DataKeyNames="ID"
                                             CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                                            OnRowCommand="gvLinkedClients_RowCommand"
                                             EmptyDataText="No Client(s) found!">
                                             <Columns>
                                             <asp:BoundField DataField="Name" HeaderText="Client Name" ItemStyle-HorizontalAlign="Left" />
                                             <asp:BoundField DataField="ClientCode" HeaderText="Client Code" ItemStyle-HorizontalAlign="Left" />
-                                            <asp:HyperLinkField DataNavigateUrlFields="URL" DataNavigateUrlFormatString="UnlinkContact.aspx?clientID={0}" 
-                                                Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
+                                            <asp:TemplateField HeaderText="">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lbUnlinkClientContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                                        CommandName="unLnkClient" Text="Unlink" CausesValidation="false"></asp:LinkButton>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                            </asp:TemplateField>
                                         </Columns>
                                         </asp:GridView>
 
