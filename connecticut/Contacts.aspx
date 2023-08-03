@@ -21,7 +21,45 @@
             $('#modClientsDetail').modal('show');
         }
 
-        
+        function unlinkClientContact(Client_ID, Contact_ID) {
+            // Set the built-in Client_ID value to the hidden field
+            $('#<%= hdnContactID.ClientID %>').val(Client_ID);
+
+            var requestData = {
+                Client_ID: Client_ID,
+                Contact_ID: Contact_ID
+            };
+
+            var json = JSON.stringify(requestData);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/AjaxAPI/UnlinkContact",
+                data: json,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert(response.Message); // Access the "Message" property directly
+                    console.log(response.Message);
+                    // Trigger the click event on the hidden button
+                    __doPostBack('<%= btnUpDetails.UniqueID %>', "");
+                    
+                },
+                failure: function (response) {
+                    alert(response.Message); 
+                    console.log(response.Message);
+                },
+                error: function (response) {
+                    alert(response.Message); 
+                    console.log(response.Message);
+                }
+                
+            });
+
+            
+            
+        }
+
     </script>
  
 </head>

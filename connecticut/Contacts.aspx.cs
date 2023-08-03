@@ -41,6 +41,8 @@ namespace connecticut
                     gvContacts.DataSource = myDr;
                     gvContacts.DataBind();
 
+                    upContacts.Update();
+
                     myDr.Close();
                 }
             }
@@ -63,6 +65,8 @@ namespace connecticut
                     gvClients.DataSource = myDr;
                     gvClients.DataBind();
 
+                    upDetails.Update();
+
                     myDr.Close();
                 }
             }
@@ -70,7 +74,7 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
-        private void DoLinkedClientsGridView()
+        private void DoLinkedClientsGridView(int Contact_ID)
         {
             try
             {
@@ -80,12 +84,14 @@ namespace connecticut
                     myCom.Connection = myCon;
                     myCom.CommandType = CommandType.StoredProcedure;
 
-                    myCom.Parameters.Add("@ContactID", SqlDbType.Int).Value = (int)ViewState["Contact_ID"];
+                    myCom.Parameters.Add("@ContactID", SqlDbType.Int).Value = Contact_ID;
 
                     SqlDataReader myDr = myCom.ExecuteReader();
 
                     gvLinkedClients.DataSource = myDr;
                     gvLinkedClients.DataBind();
+
+                    upDetails.Update();
 
                     myDr.Close();
                 }
@@ -98,6 +104,16 @@ namespace connecticut
             {
                 myCon.Close();
             }
+        }
+
+        protected void btnUpDetails_Click(object sender, EventArgs e)
+        {
+            // Get the Client_ID value from the hidden field
+            int Contact_ID = Convert.ToInt32(hdnContactID.Value);
+
+            DoLinkedClientsGridView(Contact_ID);
+            DoClientsGridView();
+            DoGridView();
         }
 
         protected void lbNewContact_Click(object sender, EventArgs e)
@@ -226,7 +242,7 @@ namespace connecticut
         protected void gvContacts_RowCommandSelect(int Contact_ID)
         {
             GetContact(Contact_ID);
-            DoLinkedClientsGridView();
+            DoLinkedClientsGridView(Contact_ID);
         }
 
         protected void gvContacts_RowCommandLink()
@@ -344,9 +360,17 @@ namespace connecticut
             finally
             {
                 myCon.Close();
-                DoLinkedClientsGridView();
+                DoLinkedClientsGridView(Contact_ID);
                 DoGridView();
             }
+        }
+
+        protected void unlinkClientContact(int Client_ID, int Contact_ID)
+        {
+            string script = "unlinkClientContact(" + Client_ID + ", " + Contact_ID + ");";
+            // Pass associated update panel to javascript function
+            ScriptManager.RegisterStartupScript(upDetails, this.GetType(), "unlinkClientContact", script, true);
+
         }
     }
 }
