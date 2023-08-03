@@ -34,7 +34,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/api/AjaxAPI/UnlinkContact",
+                url: "/api/AjaxAPI/UnlinkClientContact",
                 data: json,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
