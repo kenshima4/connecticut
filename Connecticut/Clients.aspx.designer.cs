@@ -24,6 +24,15 @@ namespace connecticut
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// hlHome control.
         /// </summary>
         /// <remarks>
@@ -114,6 +123,15 @@ namespace connecticut
         protected global::System.Web.UI.WebControls.TextBox txtBoxClientCode;
 
         /// <summary>
+        /// upGvLinkedContacts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upGvLinkedContacts;
+
+        /// <summary>
         /// gvLinkedContacts control.
         /// </summary>
         /// <remarks>
@@ -121,6 +139,15 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvLinkedContacts;
+
+        /// <summary>
+        /// btnUpdateGvLinkedClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpdateGvLinkedClients;
 
         /// <summary>
         /// lblClientNew control.

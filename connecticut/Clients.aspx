@@ -39,6 +39,9 @@
                 success: function (response) {
                     alert(response.Message); // Access the "Message" property directly
                     console.log(response.Message);
+                    // Trigger the click event on the hidden button
+                    __doPostBack('<%= btnUpdateGvLinkedClients.UniqueID %>', "");
+                    
                 },
                 failure: function (response) {
                     alert(response.Message); 
@@ -64,7 +67,7 @@
 <body>
     <form id="form1" runat="server">
         <div class="container">
- 
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>S
             <%-- Webpage Heading --%>
             <div class="row">
                 <div class="col-xs-12">
@@ -198,32 +201,42 @@
                         <!-- Contact(s) Tab with gridview-->
                         <div id="tabContacts" class="row tab-pane fade in" style="margin-top: 20px;">
                             <div class="col-sm-12">
-                                <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
-                                    DataKeyNames="ID"
-                                    CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
-                                    OnRowCommand="gvLinkedContacts_RowCommand"
-                                    EmptyDataText="No Contacts found!">
-                                    <Columns>
+                                <asp:UpdatePanel ID="upGvLinkedContacts" runat="server" UpdateMode="Conditional">
+                                    <ContentTemplate>
+                                        <asp:GridView ID="gvLinkedContacts" runat="server" AutoGenerateColumns="False" AllowSorting="True"
+                                            DataKeyNames="ID"
+                                            CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                                            OnRowCommand="gvLinkedContacts_RowCommand"
+                                            EmptyDataText="No Contacts found!">
+                                            <Columns>
 
-                                    <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:BoundField DataField="Email" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
-                                    <asp:TemplateField HeaderText="">
-                                        <ItemTemplate>
-                                            <asp:LinkButton ID="lbUnlinkClientContact" runat="server" CommandArgument='<%# Eval("ID") %>'
-                                             CommandName="unLnkContact" Text="Unlink" CausesValidation="false"></asp:LinkButton>
-                                        </ItemTemplate>
-                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
-                                    </asp:TemplateField>
-                                    <%--<asp:HyperLinkField CssClass="unlink-hyperlink"
-                                        DataNavigateUrlFormatString="javascript:unlinkClientContact({0}, {1});"
-                                        Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" /> --%>
+                                            <asp:BoundField DataField="FullName" HeaderText="Full Name" ItemStyle-HorizontalAlign="Left" />
+                                            <asp:BoundField DataField="Email" HeaderText="Email Address" ItemStyle-HorizontalAlign="Left" />
+                                            <asp:TemplateField HeaderText="">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lbUnlinkClientContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                                        CommandName="unLnkContact" Text="Unlink" CausesValidation="false"></asp:LinkButton>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                            </asp:TemplateField>
+                                            <%--<asp:HyperLinkField CssClass="unlink-hyperlink"
+                                                DataNavigateUrlFormatString="javascript:unlinkClientContact({0}, {1});"
+                                                Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" /> --%>
                                         
 
                                   
-                                    </Columns>
-                                </asp:GridView>
+                                            </Columns>
+                                        </asp:GridView>
 
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="btnUpdateGvLinkedClients" EventName="Click" />
+                                    </Triggers>
+                                    
+                                </asp:UpdatePanel>
 
+                                <!-- Hidden button for GridView update -->
+                                <asp:Button ID="btnUpdateGvLinkedClients" runat="server" Text="Update GridView" OnClick="btnUpdateGvLinkedClients_Click" style="display: none;" />
                             </div>
                         </div>
                         

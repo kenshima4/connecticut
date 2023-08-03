@@ -70,6 +70,11 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
+        protected void btnUpdateGvLinkedClients_Click(object sender, EventArgs e) 
+        {
+            DoLinkedContactsGridView(Client_ID);
+            DoGridView();
+        }
         private void DoLinkedContactsGridView(int Client_ID)
         {
             try
@@ -87,6 +92,7 @@ namespace connecticut
                     gvLinkedContacts.DataSource = myDr;
                     gvLinkedContacts.DataBind();
 
+                    upGvLinkedContacts.Update();
                     myDr.Close();
                 }
             }
@@ -256,6 +262,9 @@ namespace connecticut
                 {
                     unlinkClientContact(Client_ID, Contact_ID);
                 }
+
+                DoLinkedContactsGridView(Client_ID);
+                DoContactsGridView();
             }
         }
 
@@ -285,7 +294,7 @@ namespace connecticut
         protected void unlinkClientContact(int Client_ID, int Contact_ID)
         {
             string script = "unlinkClientContact(" + Client_ID + ", " + Contact_ID + ");";
-            ClientScript.RegisterStartupScript(this.GetType(), "unlinkClientContact", script, true);
+            ScriptManager.RegisterStartupScript(upGvLinkedContacts, this.GetType(), "unlinkClientContact", script, true);
         }
 
         private void GetClient(int Client_ID)
