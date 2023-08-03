@@ -41,6 +41,8 @@ namespace connecticut
                     gvClients.DataSource = myDr;
                     gvClients.DataBind();
 
+                    upClients.Update();
+
                     myDr.Close();
                 }
             }
@@ -63,6 +65,8 @@ namespace connecticut
                     gvContacts.DataSource = myDr;
                     gvContacts.DataBind();
 
+                    upDetails.Update();
+
                     myDr.Close();
                 }
             }
@@ -70,11 +74,21 @@ namespace connecticut
             finally { myCon.Close(); }
         }
 
-        protected void btnUpdateGvLinkedClients_Click(object sender, EventArgs e) 
+        protected void btnUpDetails_Click(object sender, EventArgs e) 
         {
+            // Get the Client_ID value from the hidden field
+            int Client_ID = Convert.ToInt32(hdnClientID.Value);
+
             DoLinkedContactsGridView(Client_ID);
+            DoContactsGridView();
             DoGridView();
         }
+
+        protected void btnUpClients_Click(object sender, EventArgs e)
+        {
+           DoGridView();
+        }
+
         private void DoLinkedContactsGridView(int Client_ID)
         {
             try
@@ -92,7 +106,7 @@ namespace connecticut
                     gvLinkedContacts.DataSource = myDr;
                     gvLinkedContacts.DataBind();
 
-                    upGvLinkedContacts.Update();
+                    upDetails.Update();
                     myDr.Close();
                 }
             }
@@ -263,8 +277,6 @@ namespace connecticut
                     unlinkClientContact(Client_ID, Contact_ID);
                 }
 
-                DoLinkedContactsGridView(Client_ID);
-                DoContactsGridView();
             }
         }
 
@@ -294,7 +306,9 @@ namespace connecticut
         protected void unlinkClientContact(int Client_ID, int Contact_ID)
         {
             string script = "unlinkClientContact(" + Client_ID + ", " + Contact_ID + ");";
-            ScriptManager.RegisterStartupScript(upGvLinkedContacts, this.GetType(), "unlinkClientContact", script, true);
+            // Pass associated update panel to javascript function
+            ScriptManager.RegisterStartupScript(upDetails, this.GetType(), "unlinkClientContact", script, true);
+
         }
 
         private void GetClient(int Client_ID)

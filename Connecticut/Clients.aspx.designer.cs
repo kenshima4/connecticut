@@ -96,6 +96,15 @@ namespace connecticut
         protected global::System.Web.UI.WebControls.Label Label6;
 
         /// <summary>
+        /// upClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upClients;
+
+        /// <summary>
         /// gvClients control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,24 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvClients;
+
+        /// <summary>
+        /// btnUpClients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpClients;
+
+        /// <summary>
+        /// upDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upDetails;
 
         /// <summary>
         /// txtBoxClientName control.
@@ -123,15 +150,6 @@ namespace connecticut
         protected global::System.Web.UI.WebControls.TextBox txtBoxClientCode;
 
         /// <summary>
-        /// upGvLinkedContacts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upGvLinkedContacts;
-
-        /// <summary>
         /// gvLinkedContacts control.
         /// </summary>
         /// <remarks>
@@ -139,15 +157,6 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvLinkedContacts;
-
-        /// <summary>
-        /// btnUpdateGvLinkedClients control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpdateGvLinkedClients;
 
         /// <summary>
         /// lblClientNew control.
@@ -229,5 +238,23 @@ namespace connecticut
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvContacts;
+
+        /// <summary>
+        /// btnUpDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpDetails;
+
+        /// <summary>
+        /// hdnClientID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnClientID;
     }
 }
