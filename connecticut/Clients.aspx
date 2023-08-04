@@ -35,7 +35,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/api/AjaxAPI/UnlinkContact",
+                url: "/api/AjaxAPI/UnlinkClientContact",
                 data: json,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -146,15 +146,6 @@
                                         <HeaderStyle HorizontalAlign="Left" />
                                         <ItemStyle HorizontalAlign="Center" Width="50px" />
                                     </asp:TemplateField>
- 
-                                    <%-- Update Client --%>
-                                    <asp:TemplateField HeaderText="">
-                                        <ItemTemplate>
-                                            <asp:LinkButton ID="lbUpdClient" runat="server" CommandArgument='<%# Eval("ID") %>'
-                                                CommandName="UpdClient" Text="Upd" CausesValidation="false"></asp:LinkButton>
-                                        </ItemTemplate>
-                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
-                                    </asp:TemplateField>
                             
                                     <%-- Select Client --%>
                                     <asp:TemplateField HeaderText="">
@@ -227,12 +218,7 @@
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" Width="80px" />
                                             </asp:TemplateField>
-                                            <%--<asp:HyperLinkField CssClass="unlink-hyperlink"
-                                                DataNavigateUrlFormatString="javascript:unlinkClientContact({0}, {1});"
-                                                Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" /> --%>
-                                        
-
-                                  
+                                            
                                             </Columns>
                                         </asp:GridView>
                                     </div>

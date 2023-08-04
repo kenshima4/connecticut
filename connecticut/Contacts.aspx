@@ -21,7 +21,45 @@
             $('#modClientsDetail').modal('show');
         }
 
-        
+        function unlinkClientContact(Client_ID, Contact_ID) {
+            // Set the built-in Client_ID value to the hidden field
+            $('#<%= hdnContactID.ClientID %>').val(Client_ID);
+
+            var requestData = {
+                Client_ID: Client_ID,
+                Contact_ID: Contact_ID
+            };
+
+            var json = JSON.stringify(requestData);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/AjaxAPI/UnlinkClientContact",
+                data: json,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert(response.Message); // Access the "Message" property directly
+                    console.log(response.Message);
+                    // Trigger the click event on the hidden button
+                    __doPostBack('<%= btnUpDetails.UniqueID %>', "");
+                    
+                },
+                failure: function (response) {
+                    alert(response.Message); 
+                    console.log(response.Message);
+                },
+                error: function (response) {
+                    alert(response.Message); 
+                    console.log(response.Message);
+                }
+                
+            });
+
+            
+            
+        }
+
     </script>
  
 </head>
@@ -112,15 +150,6 @@
                                         <HeaderStyle HorizontalAlign="Left" />
                                         <ItemStyle HorizontalAlign="Center" Width="50px" />
                                     </asp:TemplateField>
- 
-                                    <%-- Update Contact --%>
-                                    <asp:TemplateField HeaderText="">
-                                        <ItemTemplate>
-                                            <asp:LinkButton ID="lbUpdContact" runat="server" CommandArgument='<%# Eval("ID") %>'
-                                                CommandName="UpdContact" Text="Upd" CausesValidation="false"></asp:LinkButton>
-                                        </ItemTemplate>
-                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
-                                    </asp:TemplateField>
 
                                     <%-- Select Contact --%>
                                     <asp:TemplateField HeaderText="">
@@ -182,12 +211,18 @@
                                         <asp:GridView ID="gvLinkedClients" runat="server" AutoGenerateColumns="False" AllowSorting="True"
                                             DataKeyNames="ID"
                                             CssClass="table table-striped table-bordered table-condensed" BorderColor="Silver"
+                                            OnRowCommand="gvLinkedClients_RowCommand"
                                             EmptyDataText="No Client(s) found!">
                                             <Columns>
                                             <asp:BoundField DataField="Name" HeaderText="Client Name" ItemStyle-HorizontalAlign="Left" />
                                             <asp:BoundField DataField="ClientCode" HeaderText="Client Code" ItemStyle-HorizontalAlign="Left" />
-                                            <asp:HyperLinkField DataNavigateUrlFields="URL" DataNavigateUrlFormatString="UnlinkContact.aspx?clientID={0}" 
-                                                Text="Unlink" HeaderText="" ItemStyle-HorizontalAlign="Left" />
+                                            <asp:TemplateField HeaderText="">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lbUnlinkClientContact" runat="server" CommandArgument='<%# Eval("ID") %>'
+                                                        CommandName="unLnkClient" Text="Unlink" CausesValidation="false"></asp:LinkButton>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" Width="80px" />
+                                            </asp:TemplateField>
                                         </Columns>
                                         </asp:GridView>
 

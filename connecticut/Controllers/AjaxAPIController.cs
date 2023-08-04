@@ -19,9 +19,9 @@ namespace connecticut.Controllers
 
 
         
-        [Route("api/AjaxAPI/UnlinkContact")]
+        [Route("api/AjaxAPI/UnlinkClientContact")]
         [HttpPost]
-        public IHttpActionResult UnlinkContact([FromBody] UnlinkContactRequest requestData)
+        public IHttpActionResult UnlinkClientContact([FromBody] UnlinkContactRequest requestData)
         {
             try
             {
