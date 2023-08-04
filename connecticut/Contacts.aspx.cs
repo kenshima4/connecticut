@@ -23,7 +23,7 @@ namespace connecticut
             {
                 DoGridView();
                 DoClientsGridView();
-
+               
             }
         }
         private void DoGridView()
@@ -191,10 +191,6 @@ namespace connecticut
             {
                 gvContacts_RowCommandDelete(Contact_ID);
             }
-            else if (e.CommandName == "UpdContact")
-            {
-                gvContacts_RowCommandUpdate(Contact_ID);
-            }
             else if (e.CommandName == "SlcContact") 
             {
                 gvContacts_RowCommandSelect(Contact_ID);
@@ -239,21 +235,6 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in gvContacts_RowCommandDelete: " + ex.Message; }
             finally { myCon.Close(); }
             DoGridView();
-        }
-
-        protected void gvContacts_RowCommandUpdate(int Contact)
-        {
-
-            txtContactName.Text = "";
-
-            lblContactNew.Visible = false;
-            lblContactUpd.Visible = true;
-            btnAddContact.Visible = false;
-            btnUpdContact.Visible = true;
-
-            GetContact(Contact_ID);
-
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openContactDetail();", true);
         }
 
         protected void gvContacts_RowCommandSelect(int Contact_ID)

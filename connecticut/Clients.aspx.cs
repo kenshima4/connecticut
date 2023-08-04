@@ -184,10 +184,6 @@ namespace connecticut
             {
                 gvClients_RowCommandDelete(Client_ID);
             }
-            else if (e.CommandName == "UpdClient")
-            {
-                gvClients_RowCommandUpdate(Client_ID);
-            }
             else if (e.CommandName == "SlcClient")
             {
                 gvClients_RowCommandSelect(Client_ID);
@@ -212,21 +208,7 @@ namespace connecticut
             catch (Exception ex) { lblMessage.Text = "Error in gvClients_RowCommandDelete: " + ex.Message; }
             finally { myCon.Close(); }
             DoGridView();
-        }
-
-        protected void gvClients_RowCommandUpdate(int Client_ID) 
-        {
             
-            txtClientName.Text = "";
-
-            lblClientNew.Visible = false;
-            lblClientUpd.Visible = true;
-            btnAddClient.Visible = false;
-            btnUpdClient.Visible = true;
-
-            GetClient(Client_ID);
-
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openClientDetail();", true);
         }
 
         protected void gvClients_RowCommandSelect(int Client_ID)

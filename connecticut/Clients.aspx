@@ -146,15 +146,6 @@
                                         <HeaderStyle HorizontalAlign="Left" />
                                         <ItemStyle HorizontalAlign="Center" Width="50px" />
                                     </asp:TemplateField>
- 
-                                    <%-- Update Client --%>
-                                    <asp:TemplateField HeaderText="">
-                                        <ItemTemplate>
-                                            <asp:LinkButton ID="lbUpdClient" runat="server" CommandArgument='<%# Eval("ID") %>'
-                                                CommandName="UpdClient" Text="Upd" CausesValidation="false"></asp:LinkButton>
-                                        </ItemTemplate>
-                                        <ItemStyle HorizontalAlign="Center" Width="80px" />
-                                    </asp:TemplateField>
                             
                                     <%-- Select Client --%>
                                     <asp:TemplateField HeaderText="">
