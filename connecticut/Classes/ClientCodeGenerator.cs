@@ -99,11 +99,6 @@ namespace connecticut.Classes
                     code += strSplit[lastPlace][i + 1];
 
                 }
-                
-                
-                
-                
-                
             }
 
             return code.ToString().ToUpper();
