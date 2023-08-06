@@ -15,6 +15,7 @@ namespace connecticut
     {
         protected int Client_ID;
         private List <Client> clients = new List<Client>();
+        public ClientCodeGenerator cGen;
         SqlConnection myCon = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -140,7 +141,8 @@ namespace connecticut
                 using (SqlCommand myCom = new SqlCommand("dbo.InsClient", myCon))
                 {
                     // Create a new client object with the ID and add it to your clients list
-                    Client newClient = new Client(txtClientName.Text);
+                    cGen = new ClientCodeGenerator();
+                    Client newClient = new Client(cGen, txtClientName.Text);
                     string clientCode = newClient.getClientCode();
 
                     
