@@ -16,26 +16,20 @@ namespace connecticut.Classes
         List<Contact> contacts = new List<Contact>();
         public int noLinkedContacts { get; set; }
 
-        public Client(string name) {
+        public ClientCodeGenerator cGen;
+
+        public Client(ClientCodeGenerator cGen, string name) {
             
             this.name = name;
-            noLinkedContacts = 0;
-            generateClientCode();
+            this.noLinkedContacts = 0;
+            this.cGen = cGen;
+            string code = cGen.GenerateClientCode(name);
+            this.clientCode = cGen.AddUniqueNumericPart(code);
+
         }
 
        
-        public void generateClientCode() {
-            //TODO fill
-            this.clientCode = "AAA111";
-            
-        }
-
-        // Method to get the unique numeric part of the client code
-        private int GetUniqueNumericPart()
-        {
-            //TODO fill
-            return 111;
-        }
+        
 
 
 
