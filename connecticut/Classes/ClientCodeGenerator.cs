@@ -77,27 +77,26 @@ namespace connecticut.Classes
             while (code.Length < 3) {
                 
                 string[] strSplit = name.Split(' ');
+                
                 //case3: has whitespace - loop through split string
-
-                
-                
-                int place = -1;
+                int lastPlace = -1;
                 for (int i = 0; i < (strSplit.Length); i++)
                 {
                     if (code.Length == 3) { break; }
                     //get first char
                     code += strSplit[i][0];
-                    place++;
+                    //keep track of place
+                    lastPlace++;
 
                 }
                 
                 
                 //case4: has no whitespace - loop through chars
-                for (int i = place; i < name.Length; i++)
+                for (int i = lastPlace; i < name.Length; i++)
                 {
                     if (code.Length == 3) { break; }
-                    //get chars
-                    code += strSplit[place][i + 1];
+                    //start after current place
+                    code += strSplit[lastPlace][i + 1];
 
                 }
                 
